@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Expo Redux Template",
-    "slug": "expo-redux-template",
+    "name": "UniTravel",
+    "slug": "uni-travel",
     "version": "1.1.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -33,11 +33,6 @@
       "favicon": "./assets/favicon.png"
     },
     "plugins": [],
-    "extra": {
-      "eas": {
-        "projectId": "82716b8e-2818-4161-8a88-c571df4369a5"
-      }
-    },
     "runtimeVersion": {
       "policy": "sdkVersion"
     }
