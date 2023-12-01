@@ -10,11 +10,11 @@ async function hashPassword(password) {
 		.catch(err => console.error(err.message))
 }
 
-async function validateUser(hash) {
+async function comparePassword(password, hash) {
 	bcrypt
 		.compare(password, hash)
 		.then(res => res)
 		.catch(err => console.error(err.message))
 }
 
-module.exports = { hashPassword, validateUser }
+module.exports = { hashPassword, comparePassword }
