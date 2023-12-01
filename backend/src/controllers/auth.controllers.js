@@ -14,11 +14,15 @@ async function authenticate(req, res) {
 		const user = await prisma.user.findUnique({
 			where: { email: req.body.email }
 		});
-		const isTruePassword = await comparePassword(req.body.password, user.password);
-
-		if (user && isTruePassword)
+		if (!user)
 		{
-			return res.status(400).json({ ok: false, message: "Authenticate failed" });
+			return res.status(400).json({ ok: false, message: "Authenticate failed: Cannot find email" });
+		}
+
+		const isTruePassword = await comparePassword(req.body.password, user.password);
+		if (!isTruePassword)
+		{
+			return res.status(400).json({ ok: false, message: "Authenticate failed: Wrong password" });
 		}
 
 		delete user.password;

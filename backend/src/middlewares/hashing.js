@@ -11,9 +11,12 @@ async function hashPassword(password) {
 }
 
 async function comparePassword(password, hash) {
-	bcrypt
+	return bcrypt
 		.compare(password, hash)
-		.then(res => res)
+		.then(res => {
+			console.log('Authen result: ', res)
+			return res
+		})
 		.catch(err => console.error(err.message))
 }
 
