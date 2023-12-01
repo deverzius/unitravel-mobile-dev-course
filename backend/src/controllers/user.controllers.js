@@ -1,4 +1,5 @@
 const { PrismaClient } = require('@prisma/client');
+const { hashPassword } = require('../middlewares/hashing');
 const prisma = new PrismaClient();
 
 
@@ -43,7 +44,7 @@ async function createUser(req, res) {
 			data: {
 				name: req.body.name,
 				email: req.body.email,
-				password: req.body.password,
+				password: await hashPassword(req.body.password),
 			},
 		});
 		return res.json({ ok: true, data: userNew });
@@ -97,6 +98,11 @@ async function updateUser(req, res) {
 		if (!user)
 		{
 			return res.status(400).json({ ok: false, message: "User not found" });
+		}
+
+		if (req.body.password)
+		{
+			req.body.password = await hashPassword(req.body.password)
 		}
 
 		const userNew = await prisma.user.update({
