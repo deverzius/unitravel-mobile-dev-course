@@ -1,6 +1,7 @@
 const { PrismaClient } = require('@prisma/client');
 const { comparePassword } = require('../middlewares/hashing');
 const prisma = new PrismaClient();
+const jwt = require('jsonwebtoken')
 
 
 async function authenticate(req, res) {
@@ -26,6 +27,18 @@ async function authenticate(req, res) {
 		}
 
 		delete user.password;
+
+		// create accessToken
+		const accessToken = jwt.sign(
+			{
+				id: user.id,
+				email: user.email
+			},
+			process.env.ACCESS_TOKEN_SECRET,
+			{ expiresIn: process.env.ACCESS_TOKEN_LIFE }
+		);
+		user.accessToken = accessToken
+
 		return res.json({ ok: true, data: user });
 	}
 	catch (error)
