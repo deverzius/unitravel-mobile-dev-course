@@ -2,21 +2,25 @@ import React, { useState, useEffect } from 'react';
 import { i18n, LocalizationKey } from '@/Localization';
 import {
   View,
-  Text,
   StyleSheet,
   Image,
   TouchableHighlight,
   TouchableOpacity,
 } from 'react-native';
+import CusText from '@/Components/CusText';
 import { StatusBar } from 'expo-status-bar';
-import { Button } from 'native-base';
 import { RootScreens } from '..';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { textStyle } from '@/Theme/Variables'
+import { useNavigationState } from '@react-navigation/native';
 
 export const Welcome = (props: {
   onNavigate: (string: RootScreens) => void;
 }) => {
   const [onboardingPage, setOnboardingPage] = useState<number>(1);
+  const [currentScreenName, setCurrentScreenName] = useState(null);
+
+  const navigationState = useNavigationState(state => state);
 
   useEffect(() => {
     handleNavigate();
@@ -29,7 +33,6 @@ export const Welcome = (props: {
     }
   };
 
-
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
@@ -39,10 +42,10 @@ export const Welcome = (props: {
           style={styles.button}
         >
           <View style={styles.buttonCtn}>
-            <Text style={styles.text}>Tiếp tục</Text>
+            <CusText style={styles.text}>Tiếp tục</CusText>
             <Image
               style={styles.buttonLogo}
-              source={require('@/../assets/right.png')}
+              source={require('@/../assets/icon/right.png')}
             />
           </View>
         </TouchableHighlight>
@@ -52,15 +55,15 @@ export const Welcome = (props: {
           <View style={styles.intro1}>
             <Image
               style={styles.logo}
-              source={require('@/../assets/logo2.png')}
+              source={require('@/../assets/logo/logo2.png')}
             />
-            <Text style={styles.onboardingText1}>
+            <CusText style={styles.onboardingText1}>
               Khai phá những địa điểm thú vị trong trường đại học của bạn
-            </Text>
+            </CusText>
           </View>
           <Image
             style={styles.thumbnail1}
-            source={require('@/../assets/onboarding1.png')}
+            source={require('@/../assets/image/onboarding1.png')}
           />
         </>
       )}
@@ -68,20 +71,20 @@ export const Welcome = (props: {
         <>
           <Image
             style={styles.logo1}
-            source={require('@/../assets/logo1.png')}
+            source={require('@/../assets/logo/logo1.png')}
           />
           <View style={styles.intro2}>
             <Image
               style={styles.text1}
-              source={require('@/../assets/onb-text-1.png')}
+              source={require('@/../assets/image/onb-text-1.png')}
             />
-            <Text style={styles.onboardingText2}>
+            <CusText style={styles.onboardingText2}>
               Tìm kiếm trong trường đại học không còn là ác mộng
-            </Text>
+            </CusText>
           </View>
           <Image
             style={styles.thumbnail2}
-            source={require('@/../assets/onboarding2.png')}
+            source={require('@/../assets/image/onboarding2.png')}
           />
         </>
       )}
@@ -89,30 +92,30 @@ export const Welcome = (props: {
         <>
           <Image
             style={styles.logo1}
-            source={require('@/../assets/logo1.png')}
+            source={require('@/../assets/logo/logo1.png')}
           />
           <View style={styles.intro2}>
             <Image
               style={styles.text2}
-              source={require('@/../assets/onb-text-2.png')}
+              source={require('@/../assets/image/onb-text-2.png')}
             />
-            <Text style={styles.onboardingText2}>
+            <CusText style={styles.onboardingText2}>
               Cung cấp nguồn thông tin chính thống từ các trường đại học
-            </Text>
+            </CusText>
           </View>
           <Image
             style={styles.thumbnail2}
-            source={require('@/../assets/onboarding3.png')}
+            source={require('@/../assets/image/onboarding3.png')}
           />
           <View style={styles.btnCtn}>
             <TouchableOpacity
               onPress={() => props.onNavigate(RootScreens.MAIN)}
               style={[styles.btn, styles.lgBtn]}
             >
-              <Text style={styles.whiteText}>Đăng nhập</Text>
+              <CusText style={styles.whiteText}>Đăng nhập</CusText>
             </TouchableOpacity>
             <TouchableOpacity style={[styles.btn, styles.suBtn]}>
-              <Text style={styles.purpleText}>Đăng ký</Text>
+              <CusText style={styles.purpleText}>Đăng ký</CusText>
             </TouchableOpacity>
           </View>
         </>
@@ -171,6 +174,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#4B3987',
     textAlign: 'center',
+    ...textStyle(18, 'red', 'montRegular')
   },
   intro1: {
     alignItems: 'flex-start',
@@ -182,6 +186,8 @@ const styles = StyleSheet.create({
   intro2: {
     marginBottom: 20,
     marginTop: -50,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   thumbnail1: {
     width: 350,
