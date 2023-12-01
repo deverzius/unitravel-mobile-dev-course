@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "UniTravel",
-    "slug": "uni-travel",
+    "slug": "unitravel",
     "version": "1.1.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -35,6 +35,12 @@
     "plugins": [],
     "runtimeVersion": {
       "policy": "sdkVersion"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "16fb3d8d-6071-4969-919d-4863021dbb24"
+      }
+    },
+    "owner": "dat.ledeltora1st"
   }
 }

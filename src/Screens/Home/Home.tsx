@@ -1,9 +1,10 @@
-import { i18n, LocalizationKey } from "@/Localization";
-import React from "react";
-import { View, Text, StyleSheet } from "react-native";
-import { StatusBar } from "expo-status-bar";
-import { HStack, Spinner, Heading } from "native-base";
-import { User } from "@/Services";
+import { i18n, LocalizationKey } from '@/Localization';
+import React from 'react';
+import { View, Text, StyleSheet } from 'react-native';
+import { StatusBar } from 'expo-status-bar';
+import { HStack, Spinner, Heading } from 'native-base';
+import { User } from '@/Services';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export interface IHomeProps {
   data: User | undefined;
@@ -12,6 +13,7 @@ export interface IHomeProps {
 
 export const Home = (props: IHomeProps) => {
   const { data, isLoading } = props;
+  AsyncStorage.removeItem('onboarding');
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
@@ -37,8 +39,8 @@ export const Home = (props: IHomeProps) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });
