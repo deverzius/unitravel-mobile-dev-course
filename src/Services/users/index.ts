@@ -1,4 +1,4 @@
-import { API } from "../base";
+import { API } from '../base';
 
 export interface Geo {
   lat: string;
