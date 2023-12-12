@@ -28,4 +28,15 @@ async function register(req, res) {
 	return res.json({ data, error })
 }
 
-module.exports = { authenticate, register }
+async function signout(req, res) {
+	const { error } = await supabaseInstance.auth.signOut()
+
+	if (error)
+	{
+		return res.status(error.status).json({ error })
+	}
+
+	return res.status(200).json({ message: 'Signed out' })
+}
+
+module.exports = { authenticate, register, signout }
