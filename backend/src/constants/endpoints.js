@@ -1,4 +1,5 @@
-USER_ENDPOINT = '/users';
-AUTH_ENDPOINT = '/auth';
+API_VERSION = '/api/v1';
+USER_ENDPOINT = API_VERSION + '/users';
+AUTH_ENDPOINT = API_VERSION + '/auth';
 
 module.exports = { USER_ENDPOINT, AUTH_ENDPOINT };
