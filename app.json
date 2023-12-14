@@ -1,13 +1,13 @@
 {
   "expo": {
     "name": "UniTravel",
-    "slug": "uni-travel",
+    "slug": "unitravel",
     "version": "1.1.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/icon/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/logo/logo1.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -24,17 +24,23 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/icon/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
       "package": "com.hpcc.expo_redux_template"
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/icon/favicon.png"
     },
     "plugins": [],
     "runtimeVersion": {
       "policy": "sdkVersion"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "16fb3d8d-6071-4969-919d-4863021dbb24"
+      }
+    },
+    "owner": "dat.ledeltora1st"
   }
 }

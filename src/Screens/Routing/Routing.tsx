@@ -6,12 +6,12 @@ import { HStack, Spinner, Heading } from 'native-base';
 import { User } from '@/Services';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export interface IHomeProps {
+export interface IRoutingProps {
   data: User | undefined;
   isLoading: boolean;
 }
 
-export const Home = (props: IHomeProps) => {
+export const Routing = (props: IRoutingProps) => {
   const { data, isLoading } = props;
   AsyncStorage.removeItem('onboarding');
   return (
