@@ -2,16 +2,36 @@ import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { HomeContainer } from '@/Screens/Home';
 import { RoutingContainer } from '@/Screens/Routing';
-import { StyleSheet, Image } from 'react-native';
+import { ScanContainer } from '@/Screens/Scan';
+import { NotiContainer } from '@/Screens/Noti';
+import { ProfileContainer } from '@/Screens/Profile';
+import { StyleSheet, Image, View, TouchableOpacity } from 'react-native';
 import { Colors } from '@/Theme/Variables';
 
 const Tab = createBottomTabNavigator();
 
 // @refresh reset
 export const MainNavigator = () => {
+  const IconLine = () => {
+    return (
+      <View
+        style={{
+          ...styles.line,
+          borderBottomColor: '#ffffff',
+          borderBottomWidth: 2,
+          borderBottomLeftRadius: 1,
+          borderBottomRightRadius: 1,
+          borderTopLeftRadius: 2,
+          borderTopRightRadius: 1,
+        }}
+      />
+    );
+  };
+
   return (
     <Tab.Navigator
       screenOptions={{
+        tabBarShowLabel: false,
         tabBarStyle: {
           ...styles.navBar,
         },
@@ -21,18 +41,17 @@ export const MainNavigator = () => {
         name="Home"
         component={HomeContainer}
         options={{
-          tabBarIcon: ({ focused, color, size }) => {
-            return (
+          tabBarIcon: ({ focused }) => (
+            <View style={{ ...styles.tabScreen }}>
               <Image
-                style={styles.icon}
-                source={
-                  focused
-                    ? require('@/../assets/icon/home-active.png')
-                    : require('@/../assets/icon/home.png')
-                }
+                source={require('@/../assets/icon/home.png')}
+                style={{
+                  ...styles.iconHome,
+                }}
               />
-            );
-          },
+              {focused && IconLine()}
+            </View>
+          ),
           tabBarLabelPosition: 'below-icon',
         }}
       />
@@ -40,7 +59,70 @@ export const MainNavigator = () => {
         name="Routing"
         component={RoutingContainer}
         options={{
-          // tabBarIconStyle: { display: 'none' },
+          tabBarIcon: ({ focused }) => (
+            <View style={{ ...styles.tabScreen }}>
+              <Image
+                source={require('@/../assets/icon/routing.png')}
+                style={{
+                  ...styles.icon,
+                }}
+              />
+              {focused && IconLine()}
+            </View>
+          ),
+          tabBarLabelPosition: 'below-icon',
+        }}
+      />
+      <Tab.Screen
+        name="Scan"
+        component={ScanContainer}
+        options={{
+          tabBarIcon: ({ focused }) => (
+            <View style={{ ...styles.tabScreen, ...styles.scanBtn }}>
+              <Image
+                source={require('@/../assets/icon/qr.png')}
+                style={{
+                  ...styles.icon,
+                }}
+              />
+            </View>
+          ),
+          tabBarLabelPosition: 'below-icon',
+        }}
+      />
+      <Tab.Screen
+        name="Notification"
+        component={NotiContainer}
+        options={{
+          tabBarIcon: ({ focused }) => (
+            <View style={{ ...styles.tabScreen }}>
+              <Image
+                source={require('@/../assets/icon/notification.png')}
+                style={{
+                  ...styles.icon,
+                }}
+              />
+              {focused && IconLine()}
+            </View>
+          ),
+          tabBarLabelPosition: 'below-icon',
+        }}
+      />
+      <Tab.Screen
+        name="Profile"
+        component={ProfileContainer}
+        options={{
+          tabBarIcon: ({ focused }) => (
+            <View style={{ ...styles.tabScreen }}>
+              <Image
+                source={require('@/../assets/icon/profile.png')}
+                style={{
+                  ...styles.iconHome,
+                }}
+              />
+              {focused && IconLine()}
+            </View>
+          ),
           tabBarLabelPosition: 'below-icon',
         }}
       />
@@ -56,8 +138,27 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 90,
   },
+  tabScreen: {
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   icon: {
+    width: 40,
+    height: 40,
+  },
+  iconHome: {
+    width: 35,
+    height: 35,
+  },
+  line: {
     width: 30,
-    height: 30,
+    height: 10,
+  },
+  scanBtn: {
+    width: 60,
+    height: 60,
+    backgroundColor: 'white',
+    borderRadius: 60,
+    marginBottom: 15,
   },
 });
