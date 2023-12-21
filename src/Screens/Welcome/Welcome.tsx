@@ -174,7 +174,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#4B3987',
     textAlign: 'center',
-    ...textStyle(18, 'red', 'montRegular')
+    ...textStyle(18, '#4B3987', 'montRegular')
   },
   intro1: {
     alignItems: 'flex-start',
