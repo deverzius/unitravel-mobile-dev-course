@@ -4,14 +4,13 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "@/Navigation";
 import { RootScreens } from "..";
 
-type WelcomeScreenNavigatorProps = NativeStackScreenProps<
-  RootStackParamList,
-  RootScreens.SPLASH
+type SplashScreenNavigatorProps = NativeStackScreenProps<
+  RootStackParamList
 >;
 
 export const SplashContainer = ({
   navigation,
-}: WelcomeScreenNavigatorProps) => {
+}: SplashScreenNavigatorProps) => {
   const onNavigate = (screen: RootScreens) => {
     navigation.navigate(screen);
   };

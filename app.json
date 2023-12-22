@@ -27,7 +27,8 @@
         "foregroundImage": "./assets/icon/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "com.hpcc.expo_redux_template"
+      "package": "com.hpcc.expo_redux_template",
+      "softwareKeyboardLayoutMode" : "pan"
     },
     "web": {
       "favicon": "./assets/icon/favicon.png"

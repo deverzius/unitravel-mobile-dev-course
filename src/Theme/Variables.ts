@@ -14,6 +14,7 @@ export enum Colors {
   TRANSPARENT = "rgba(0,0,0,0)",
   INPUT_BACKGROUND = "#FFFFFF",
   WHITE = "#ffffff",
+  BLACK = "#000000",
   TEXT = "#212529",
   PRIMARY = "#E14032",
   SUCCESS = "#28a745",
@@ -49,6 +50,7 @@ const large = regular * 2; // 30
 
 const DEFAULT_FONT_COLOR = '#000000';
 const DEFAULT_FONT_FAMILY = 'montRegular';
+const DEFAULT_LINE_HEIGHT = 20;
 
 export enum MetricsSizes {
   TINY = tiny,
@@ -68,12 +70,14 @@ interface TextStyleProp extends TextStyle {}
 export const textStyle = (
   size: number = small,
   color: string = DEFAULT_FONT_COLOR,
-  family: string = DEFAULT_FONT_FAMILY
+  family: string = DEFAULT_FONT_FAMILY,
+  lineHeight: number = DEFAULT_LINE_HEIGHT
 ): TextStyleProp => {
   let temp: TextStyleProp = {
     fontSize: size,
     color: color,
-    fontFamily: family
+    fontFamily: family,
+    lineHeight: lineHeight
   };
   return temp;
 };

@@ -31,6 +31,7 @@ export const MainNavigator = () => {
   return (
     <Tab.Navigator
       screenOptions={{
+        headerShown: false,
         tabBarShowLabel: false,
         tabBarStyle: {
           ...styles.navBar,
@@ -88,6 +89,7 @@ export const MainNavigator = () => {
             </View>
           ),
           tabBarLabelPosition: 'below-icon',
+          tabBarStyle: { display: 'none' }
         }}
       />
       <Tab.Screen
@@ -143,12 +145,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   icon: {
-    width: 40,
-    height: 40,
-  },
-  iconHome: {
     width: 35,
     height: 35,
+  },
+  iconHome: {
+    width: 30,
+    height: 30,
   },
   line: {
     width: 30,

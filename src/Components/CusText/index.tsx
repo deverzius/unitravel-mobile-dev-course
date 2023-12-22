@@ -7,7 +7,7 @@ interface CusTextProps {
 }
 
 const CusText: FC<CusTextProps> = ({ style, children }) => {
-  return <Text style={[style, styles.defaultFont]}>{children}</Text>;
+  return <Text style={[styles.defaultFont, style]}>{children}</Text>;
 };
 
 const styles = StyleSheet.create({
