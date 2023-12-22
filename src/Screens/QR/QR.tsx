@@ -1,5 +1,5 @@
 import { i18n, LocalizationKey } from '@/Localization';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { HStack, Spinner, Heading } from 'native-base';
@@ -9,16 +9,46 @@ import { textStyle } from '@/Theme/Variables';
 import CusText from '@/Components/CusText';
 import { Colors } from '@/Theme/Variables';
 import { RootScreens } from '..';
+import { BarCodeScanner } from 'expo-barcode-scanner';
 
-export interface IScanProps {
+export interface IQRProps {
   data: User | undefined;
   isLoading: boolean;
   navigation: any;
 }
 
-
-export const Scan = (props: IScanProps) => {
+export const QR = (props: IQRProps) => {
   const { data, isLoading, navigation } = props;
+  const [hasPermission, setHasPermission] = useState('not-granted');
+  const [scanned, setScanned] = useState(false);
+  const [qrData, setQrData] = useState('Not yet scanned');
+
+  const askForCameraPermission = () => {
+    (async () => {
+      const { status } = await BarCodeScanner.requestPermissionsAsync();
+      setHasPermission(status);
+    })();
+  };
+
+  useEffect(() => {
+    askForCameraPermission();
+  }, []);
+
+  const handleBarCodeScanned = ({ type, data }: any) => {
+    setScanned(true);
+    setQrData(data);
+    alert(`Bar code with type ${type} and data ${data} has been scanned!`);
+  };
+
+  if (hasPermission === 'not-granted') {
+    return <View style={styles.container}></View>;
+  }
+
+  if (hasPermission === 'denied') {
+    navigation.goBack();
+  }
+
+  console.log(data);
 
   return (
     <View style={styles.container}>
@@ -43,19 +73,12 @@ export const Scan = (props: IScanProps) => {
               }}
             />
           </TouchableOpacity>
-          <Text style={styles.scanHeader}>Quét mã QR</Text>
-          <Image
-            source={require('@/../assets/icon/scan-qr.png')}
-            style={{
-              ...styles.iconHome,
-            }}
-          />
-          <TouchableOpacity
-            onPress={() => navigation.push(RootScreens.QR)}
-            style={[styles.btn, styles.lgBtn]}
-          >
-            <CusText style={styles.btnText}>Quét</CusText>
-          </TouchableOpacity>
+          <View style={styles.scanBox}>
+            <BarCodeScanner
+              onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
+              style={{ width: 400, height: 800 }}
+            />
+          </View>
         </>
       )}
     </View>
@@ -68,30 +91,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#000000',
-  },
-  scanHeader: {
-    ...textStyle(30, '#ffffff', 'montBold', 30),
-    marginTop: 30,
-    marginBottom: 40,
-  },
-  iconHome: {
-    width: '90%',
-    height: '50%',
-    marginBottom: 40,
-  },
-  btnText: {
-    ...textStyle(14, Colors.INDIGO5, 'montBold'),
-  },
-  btn: {
-    width: 300,
-    height: 50,
-    backgroundColor: '#000',
-    borderRadius: 50,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  lgBtn: {
-    backgroundColor: Colors.INDIGO1,
   },
   backBtn: {
     position: 'absolute',
@@ -107,5 +106,13 @@ const styles = StyleSheet.create({
   backIcon: {
     width: 20,
     height: 15,
-  }
+  },
+  scanBox: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: 300,
+    width: 300,
+    overflow: 'hidden',
+    borderRadius: 30,
+  },
 });

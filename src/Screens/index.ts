@@ -6,6 +6,8 @@ export enum RootScreens {
   SPLASH = "Splash",
   LOGIN = "Login",
   SIGNUP = "Signup",
+  SCAN = "Scan",
+  QR = "QR",
 }
 
 export enum RootStacks {

@@ -14,8 +14,8 @@ export interface IHomeProps {
 export const Home = (props: IHomeProps) => {
   const { data, isLoading } = props;
 
-  // const tmp = AsyncStorage.setItem('user', 'token');
-  // const tmp1 = AsyncStorage.setItem('onboarding', 'true');
+  const tmp = AsyncStorage.setItem('user', 'token');
+  const tmp1 = AsyncStorage.setItem('onboarding', 'true');
   // AsyncStorage.removeItem('user');
   // AsyncStorage.removeItem('onboarding');
 
