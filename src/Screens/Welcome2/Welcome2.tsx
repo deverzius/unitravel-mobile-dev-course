@@ -1,62 +1,59 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { i18n, LocalizationKey } from '@/Localization';
 import {
   View,
   StyleSheet,
   Image,
-  TouchableHighlight,
   TouchableOpacity,
 } from 'react-native';
 import CusText from '@/Components/CusText';
 import { StatusBar } from 'expo-status-bar';
 import { RootStacks, RootScreens } from '..';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { textStyle } from '@/Theme/Variables';
 import { Colors } from '@/Theme/Variables';
 
-export const Welcome = (props: any) => {
+export const Welcome2 = (props: any) => {
   const { navigation } = props;
-
-  useEffect(() => {
-    handleNavigate();
-  });
-
-  const handleNavigate = async () => {
-    const token = await AsyncStorage.getItem('onboarding');
-    if (token) {
-      props.onNavigate(RootStacks.MAIN);
-    }
-  };
 
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
-      <TouchableHighlight
-        onPress={() => navigation.navigate(RootScreens.WELCOME1)}
-        style={styles.button}
-      >
-        <View style={styles.buttonCtn}>
-          <CusText style={styles.text}>Tiếp tục</CusText>
-          <Image
-            style={styles.buttonLogo}
-            source={require('@/../assets/icon/right.png')}
-          />
-        </View>
-      </TouchableHighlight>
       <>
-        <View style={styles.intro1}>
+        <Image
+          style={styles.logo1}
+          source={require('@/../assets/logo/logo1.png')}
+        />
+        <View style={styles.intro2}>
           <Image
-            style={styles.logo}
-            source={require('@/../assets/logo/logo2.png')}
+            style={styles.text2}
+            source={require('@/../assets/image/onb-text-2.png')}
           />
-          <CusText style={styles.onboardingText1}>
-            Khai phá những địa điểm thú vị trong trường đại học của bạn
+          <CusText style={styles.onboardingText2}>
+            Cung cấp nguồn thông tin chính thống từ các trường đại học
           </CusText>
         </View>
         <Image
-          style={styles.thumbnail1}
-          source={require('@/../assets/image/onboarding1.png')}
+          style={styles.thumbnail2}
+          source={require('@/../assets/image/onboarding3.png')}
         />
+        <View style={styles.btnCtn}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate(RootStacks.AUTH)}
+            style={[styles.btn, styles.lgBtn]}
+          >
+            <CusText style={styles.whiteText}>Đăng nhập</CusText>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate(RootStacks.AUTH, {
+                screen: RootScreens.SIGNUP,
+              })
+            }
+            style={[styles.btn, styles.suBtn]}
+          >
+            <CusText style={styles.purpleText}>Đăng ký</CusText>
+          </TouchableOpacity>
+        </View>
       </>
     </View>
   );

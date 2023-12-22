@@ -1,38 +1,25 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { i18n, LocalizationKey } from '@/Localization';
 import {
   View,
   StyleSheet,
   Image,
   TouchableHighlight,
-  TouchableOpacity,
 } from 'react-native';
 import CusText from '@/Components/CusText';
 import { StatusBar } from 'expo-status-bar';
-import { RootStacks, RootScreens } from '..';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { RootScreens } from '..';
 import { textStyle } from '@/Theme/Variables';
 import { Colors } from '@/Theme/Variables';
 
-export const Welcome = (props: any) => {
+export const Welcome1 = (props: any) => {
   const { navigation } = props;
-
-  useEffect(() => {
-    handleNavigate();
-  });
-
-  const handleNavigate = async () => {
-    const token = await AsyncStorage.getItem('onboarding');
-    if (token) {
-      props.onNavigate(RootStacks.MAIN);
-    }
-  };
 
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
       <TouchableHighlight
-        onPress={() => navigation.navigate(RootScreens.WELCOME1)}
+        onPress={() => navigation.navigate(RootScreens.WELCOME2)}
         style={styles.button}
       >
         <View style={styles.buttonCtn}>
@@ -44,18 +31,22 @@ export const Welcome = (props: any) => {
         </View>
       </TouchableHighlight>
       <>
-        <View style={styles.intro1}>
+        <Image
+          style={styles.logo1}
+          source={require('@/../assets/logo/logo1.png')}
+        />
+        <View style={styles.intro2}>
           <Image
-            style={styles.logo}
-            source={require('@/../assets/logo/logo2.png')}
+            style={styles.text1}
+            source={require('@/../assets/image/onb-text-1.png')}
           />
-          <CusText style={styles.onboardingText1}>
-            Khai phá những địa điểm thú vị trong trường đại học của bạn
+          <CusText style={styles.onboardingText2}>
+            Tìm kiếm trong trường đại học không còn là ác mộng
           </CusText>
         </View>
         <Image
-          style={styles.thumbnail1}
-          source={require('@/../assets/image/onboarding1.png')}
+          style={styles.thumbnail2}
+          source={require('@/../assets/image/onboarding2.png')}
         />
       </>
     </View>
