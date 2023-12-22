@@ -9,18 +9,14 @@ import {
 } from 'react-native';
 import CusText from '@/Components/CusText';
 import { StatusBar } from 'expo-status-bar';
-import { RootScreens } from '..';
+import { RootStacks, RootScreens } from '..';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { textStyle } from '@/Theme/Variables'
-import { useNavigationState } from '@react-navigation/native';
+import { textStyle } from '@/Theme/Variables';
+import { Colors } from '@/Theme/Variables';
 
-export const Welcome = (props: {
-  onNavigate: (string: RootScreens) => void;
-}) => {
+export const Welcome = (props: any) => {
   const [onboardingPage, setOnboardingPage] = useState<number>(1);
-  const [currentScreenName, setCurrentScreenName] = useState(null);
-
-  const navigationState = useNavigationState(state => state);
+  const { navigation } = props;
 
   useEffect(() => {
     handleNavigate();
@@ -28,8 +24,8 @@ export const Welcome = (props: {
 
   const handleNavigate = async () => {
     const token = await AsyncStorage.getItem('onboarding');
-    if(token) {
-      props.onNavigate(RootScreens.MAIN);
+    if (token) {
+      props.onNavigate(RootStacks.MAIN);
     }
   };
 
@@ -109,12 +105,15 @@ export const Welcome = (props: {
           />
           <View style={styles.btnCtn}>
             <TouchableOpacity
-              onPress={() => props.onNavigate(RootScreens.MAIN)}
+              onPress={() => navigation.navigate(RootStacks.AUTH)}
               style={[styles.btn, styles.lgBtn]}
             >
               <CusText style={styles.whiteText}>Đăng nhập</CusText>
             </TouchableOpacity>
-            <TouchableOpacity style={[styles.btn, styles.suBtn]}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate(RootStacks.AUTH, { screen: RootScreens.SIGNUP })}
+              style={[styles.btn, styles.suBtn]}
+            >
               <CusText style={styles.purpleText}>Đăng ký</CusText>
             </TouchableOpacity>
           </View>
@@ -135,6 +134,7 @@ const styles = StyleSheet.create({
     width: 200,
     height: 60,
     marginLeft: -10,
+    marginBottom: 10,
   },
   logo1: {
     width: 350,
@@ -155,7 +155,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#400081',
   },
   text: {
-    color: '#fff',
+    ...textStyle(14, '#fff', 'montRegular'),
   },
   buttonCtn: {
     width: '100%',
@@ -166,15 +166,12 @@ const styles = StyleSheet.create({
   },
   onboardingText1: {
     width: 280,
-    fontSize: 18,
-    color: '#4B3987',
+    ...textStyle(16, '#4B3987', 'montRegular'),
   },
   onboardingText2: {
     width: 280,
-    fontSize: 16,
-    color: '#4B3987',
     textAlign: 'center',
-    ...textStyle(18, '#4B3987', 'montRegular')
+    ...textStyle(14, '#4B3987', 'montRegular'),
   },
   intro1: {
     alignItems: 'flex-start',
@@ -202,10 +199,12 @@ const styles = StyleSheet.create({
   text1: {
     width: 300,
     height: 40,
+    marginBottom: 12,
   },
   text2: {
     width: 300,
     height: 40,
+    marginBottom: 12,
   },
   btn: {
     width: 300,
@@ -223,10 +222,10 @@ const styles = StyleSheet.create({
     marginTop: 15,
   },
   whiteText: {
-    color: '#fff',
+    ...textStyle(14, Colors.WHITE, 'montRegular'),
   },
   purpleText: {
-    color: '#400081',
+    ...textStyle(14, Colors.INDIGO5, 'montRegular'),
   },
   btnCtn: {
     position: 'absolute',

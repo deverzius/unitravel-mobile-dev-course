@@ -1,15 +1,14 @@
-import { Scan } from './Scan';
+import { Signup } from './Signup';
 import React, { useState, useEffect } from 'react';
 import { useLazyGetUserQuery } from '@/Services';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '@/Navigation';
-import { RootScreens } from '..';
 
-type ScanScreenNavigatorProps = NativeStackScreenProps<
+type AuthScreenNavigatorProps = NativeStackScreenProps<
   RootStackParamList
 >;
 
-export const ScanContainer = ({ navigation }: ScanScreenNavigatorProps) => {
+export const SignupContainer = ({ navigation }: AuthScreenNavigatorProps) => {
   const [userId, setUserId] = useState('9');
 
   const [fetchOne, { data, isSuccess, isLoading, isFetching, error }] =
@@ -19,5 +18,5 @@ export const ScanContainer = ({ navigation }: ScanScreenNavigatorProps) => {
     fetchOne(userId);
   }, [fetchOne, userId]);
 
-  return <Scan data={data} isLoading={isLoading} navigation={navigation} />;
+  return <Signup data={data} isLoading={isLoading} navigation={navigation} />;
 };

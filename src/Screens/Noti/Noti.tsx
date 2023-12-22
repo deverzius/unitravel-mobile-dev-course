@@ -13,7 +13,7 @@ export interface INotiProps {
 
 export const Noti = (props: INotiProps) => {
   const { data, isLoading } = props;
-  AsyncStorage.removeItem('onboarding');
+
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />

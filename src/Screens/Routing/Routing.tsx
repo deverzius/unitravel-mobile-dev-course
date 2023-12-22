@@ -13,7 +13,7 @@ export interface IRoutingProps {
 
 export const Routing = (props: IRoutingProps) => {
   const { data, isLoading } = props;
-  AsyncStorage.removeItem('onboarding');
+
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />

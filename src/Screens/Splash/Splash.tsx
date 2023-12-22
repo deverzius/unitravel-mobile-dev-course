@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 import { View } from 'react-native';
-import { RootScreens } from '..';
+import { RootStacks } from '..';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const Splash = (props: {
-  onNavigate: (string: RootScreens) => void;
+  onNavigate: (string: RootStacks) => void;
 }) => {
   useEffect(() => {
     handleNavigate();
@@ -13,9 +13,9 @@ export const Splash = (props: {
   const handleNavigate = async () => {
     const token = await AsyncStorage.getItem('onboarding');
     if (token) {
-      props.onNavigate(RootScreens.MAIN);
+      props.onNavigate(RootStacks.MAIN);
     } else {
-      props.onNavigate(RootScreens.WELCOME);
+      props.onNavigate(RootStacks.ONBOARDING);
     }
   };
 
