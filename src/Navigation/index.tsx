@@ -3,6 +3,8 @@ import { StatusBar } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
 import { WelcomeContainer } from '@/Screens/Welcome';
+import { Welcome1Container } from '@/Screens/Welcome1';
+import { Welcome2Container } from '@/Screens/Welcome2';
 import { SplashContainer } from '@/Screens/Splash';
 import { ScanContainer } from '@/Screens/Scan';
 import { LoginContainer } from '@/Screens/Login';
@@ -26,6 +28,14 @@ function WelcomeStack() {
       <RootStack.Screen
         name={RootScreens.WELCOME}
         component={WelcomeContainer}
+      />
+      <RootStack.Screen
+        name={RootScreens.WELCOME1}
+        component={Welcome1Container}
+      />
+      <RootStack.Screen
+        name={RootScreens.WELCOME2}
+        component={Welcome2Container}
       />
     </RootStack.Navigator>
   );
