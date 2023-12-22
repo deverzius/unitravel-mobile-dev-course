@@ -2,10 +2,10 @@ import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { HomeContainer } from '@/Screens/Home';
 import { RoutingContainer } from '@/Screens/Routing';
-import { ScanContainer } from '@/Screens/Scan';
+import { ScanStack } from '../stacks';
 import { NotiContainer } from '@/Screens/Noti';
 import { ProfileContainer } from '@/Screens/Profile';
-import { StyleSheet, Image, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, Image, View } from 'react-native';
 import { Colors } from '@/Theme/Variables';
 
 const Tab = createBottomTabNavigator();
@@ -39,7 +39,7 @@ export const MainNavigator = () => {
       }}
     >
       <Tab.Screen
-        name="Home"
+        name="TAB_HOME"
         component={HomeContainer}
         options={{
           tabBarIcon: ({ focused }) => (
@@ -57,7 +57,7 @@ export const MainNavigator = () => {
         }}
       />
       <Tab.Screen
-        name="Routing"
+        name="TAB_ROUTING"
         component={RoutingContainer}
         options={{
           tabBarIcon: ({ focused }) => (
@@ -75,8 +75,8 @@ export const MainNavigator = () => {
         }}
       />
       <Tab.Screen
-        name="Scan"
-        component={ScanContainer}
+        name="TAB_SCAN"
+        component={ScanStack}
         options={{
           tabBarIcon: ({ focused }) => (
             <View style={{ ...styles.tabScreen, ...styles.scanBtn }}>
@@ -89,11 +89,11 @@ export const MainNavigator = () => {
             </View>
           ),
           tabBarLabelPosition: 'below-icon',
-          tabBarStyle: { display: 'none' }
+          tabBarStyle: { display: 'none' },
         }}
       />
       <Tab.Screen
-        name="Notification"
+        name="TAB_NOTIFICATION"
         component={NotiContainer}
         options={{
           tabBarIcon: ({ focused }) => (
@@ -111,7 +111,7 @@ export const MainNavigator = () => {
         }}
       />
       <Tab.Screen
-        name="Profile"
+        name="TAB_PROFILE"
         component={ProfileContainer}
         options={{
           tabBarIcon: ({ focused }) => (
