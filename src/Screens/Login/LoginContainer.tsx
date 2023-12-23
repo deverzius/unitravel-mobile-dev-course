@@ -2,7 +2,7 @@ import { Login } from './Login';
 import React, { useState, useEffect } from 'react';
 import { useLazyGetUserQuery } from '@/Services';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { RootStackParamList } from '@/Navigation';
+import { RootStackParamList } from '@/Navigation/stacks';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { RootStacks } from '..';
 
@@ -30,6 +30,8 @@ export const LoginContainer = ({ navigation }: AuthScreenNavigatorProps) => {
       navigation.navigate(RootStacks.MAIN);
     }
   };
+
+  console.log(useLazyGetUserQuery);
 
   return <Login data={data} isLoading={isLoading} navigation={navigation} />;
 };

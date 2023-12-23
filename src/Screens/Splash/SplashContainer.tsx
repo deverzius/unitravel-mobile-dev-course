@@ -1,7 +1,7 @@
 import React from "react";
 import { Splash } from "./Splash";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { RootStackParamList } from "@/Navigation";
+import { RootStackParamList } from "@/Navigation/stacks";
 import { RootScreens } from "..";
 
 type SplashScreenNavigatorProps = NativeStackScreenProps<

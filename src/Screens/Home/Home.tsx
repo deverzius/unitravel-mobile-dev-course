@@ -16,8 +16,8 @@ export const Home = (props: IHomeProps) => {
 
   const tmp = AsyncStorage.setItem('user', 'token');
   const tmp1 = AsyncStorage.setItem('onboarding', 'true');
-  // AsyncStorage.removeItem('user');
-  // AsyncStorage.removeItem('onboarding');
+  AsyncStorage.removeItem('user');
+  AsyncStorage.removeItem('onboarding');
 
   return (
     <View style={styles.container}>

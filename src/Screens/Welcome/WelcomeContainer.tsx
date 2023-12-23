@@ -1,7 +1,7 @@
 import React from 'react';
 import { Welcome } from './Welcome';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { RootStackParamList } from '@/Navigation';
+import { RootStackParamList } from '@/Navigation/stacks';
 
 type WelcomeScreenNavigatorProps = NativeStackScreenProps<
   RootStackParamList
