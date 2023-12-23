@@ -1,9 +1,8 @@
 import { i18n, LocalizationKey } from '@/Localization';
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { HStack, Spinner, Heading } from 'native-base';
-import { User } from '@/Services';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { textStyle } from '@/Theme/Variables';
 import CusText from '@/Components/CusText';
@@ -11,14 +10,12 @@ import { Colors } from '@/Theme/Variables';
 import { RootScreens } from '..';
 
 export interface IScanProps {
-  data: User | undefined;
-  isLoading: boolean;
   navigation: any;
 }
 
-
 export const Scan = (props: IScanProps) => {
-  const { data, isLoading, navigation } = props;
+  const { navigation } = props;
+  const [isLoading, setIsLoading] = useState(false);
 
   return (
     <View style={styles.container}>

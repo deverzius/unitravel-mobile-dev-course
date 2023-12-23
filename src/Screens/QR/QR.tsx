@@ -1,27 +1,20 @@
 import { i18n, LocalizationKey } from '@/Localization';
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { HStack, Spinner, Heading } from 'native-base';
-import { User } from '@/Services';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { textStyle } from '@/Theme/Variables';
-import CusText from '@/Components/CusText';
-import { Colors } from '@/Theme/Variables';
-import { RootScreens } from '..';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 
 export interface IQRProps {
-  data: User | undefined;
-  isLoading: boolean;
   navigation: any;
 }
 
 export const QR = (props: IQRProps) => {
-  const { data, isLoading, navigation } = props;
+  const { navigation } = props;
   const [hasPermission, setHasPermission] = useState('not-granted');
   const [scanned, setScanned] = useState(false);
   const [qrData, setQrData] = useState('Not yet scanned');
+  const [isLoading, setIsLoading] = useState(false);
 
   const askForCameraPermission = () => {
     (async () => {
@@ -48,7 +41,7 @@ export const QR = (props: IQRProps) => {
     navigation.goBack();
   }
 
-  console.log(data);
+  console.log(qrData);
 
   return (
     <View style={styles.container}>

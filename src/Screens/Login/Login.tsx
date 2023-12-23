@@ -9,9 +9,6 @@ import {
   TouchableHighlight,
   TouchableOpacity,
 } from 'react-native';
-import { StatusBar } from 'expo-status-bar';
-import { HStack, Spinner, Heading } from 'native-base';
-import { User } from '@/Services';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Colors } from '@/Theme/Variables';
 import { textStyle } from '@/Theme/Variables';
@@ -19,14 +16,13 @@ import CusText from '@/Components/CusText';
 import { RootScreens } from '..';
 
 export interface ILoginProps {
-  data: User | undefined;
-  isLoading: boolean;
   navigation: any;
 }
 
 export const Login = (props: ILoginProps) => {
-  const { data, isLoading, navigation } = props;
+  const { navigation } = props;
   const [canRead, setCanRead] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   return (
     <View style={styles.container}>
