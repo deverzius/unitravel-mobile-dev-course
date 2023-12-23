@@ -1,5 +1,5 @@
 import { i18n, LocalizationKey } from '@/Localization';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -14,6 +14,9 @@ import { Colors } from '@/Theme/Variables';
 import { textStyle } from '@/Theme/Variables';
 import CusText from '@/Components/CusText';
 import { RootScreens } from '..';
+import { useLoginMutation } from '@/Services';
+import Toast from '@/Components/Toast';
+import { Loader } from '@/Components/Loader';
 
 export interface ILoginProps {
   navigation: any;
@@ -22,10 +25,29 @@ export interface ILoginProps {
 export const Login = (props: ILoginProps) => {
   const { navigation } = props;
   const [canRead, setCanRead] = useState(true);
-  const [isLoading, setIsLoading] = useState(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [signin, { data, isSuccess, isLoading, error }] = useLoginMutation();
+
+  const handleSubmit = (e: any) => {
+    const userData = {
+      email,
+      password,
+    };
+    signin(userData);
+  };
+
+  if (isSuccess) {
+    navigation.navigate(RootScreens.MAIN);
+  } else {
+    if (email != '') {
+      Toast.error('Tài khoản hoặc mật khẩu không hợp lệ!');
+    }
+  }
 
   return (
     <View style={styles.container}>
+      {isLoading && <Loader />}
       <>
         <View style={{ ...styles.circle }}></View>
         <View style={{ ...styles.logoCtn, ...styles.marginTop }}>
@@ -51,6 +73,8 @@ export const Login = (props: ILoginProps) => {
               style={[styles.btn]}
               placeholder="Email hoặc số điện thoại"
               placeholderTextColor={Colors.BLACK}
+              value={email}
+              onChangeText={setEmail}
             />
           </View>
           <View style={{ ...styles.logoCtn }}>
@@ -80,11 +104,13 @@ export const Login = (props: ILoginProps) => {
               secureTextEntry={canRead}
               placeholder="Mật khẩu"
               placeholderTextColor={Colors.BLACK}
+              value={password}
+              onChangeText={setPassword}
             />
           </View>
           <Text style={{ ...styles.forgotPassword }}> Quên mật khẩu </Text>
           <TouchableOpacity
-            onPress={() => navigation.navigate(RootScreens.MAIN)}
+            onPress={handleSubmit}
             style={[styles.btn, styles.lgBtn]}
           >
             <CusText style={styles.login}>Đăng nhập</CusText>

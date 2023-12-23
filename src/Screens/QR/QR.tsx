@@ -2,8 +2,9 @@ import { i18n, LocalizationKey } from '@/Localization';
 import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
-import { HStack, Spinner, Heading } from 'native-base';
+import { Heading } from 'native-base';
 import { BarCodeScanner } from 'expo-barcode-scanner';
+import { Loader } from '@/Components/Loader';
 
 export interface IQRProps {
   navigation: any;
@@ -46,34 +47,26 @@ export const QR = (props: IQRProps) => {
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
-      {isLoading ? (
-        <HStack space={2} justifyContent="center">
-          <Spinner accessibilityLabel="Loading posts" />
-          <Heading color="primary.500" fontSize="md">
-            {i18n.t(LocalizationKey.LOADING)}
-          </Heading>
-        </HStack>
-      ) : (
-        <>
-          <TouchableOpacity
-            onPress={() => navigation.goBack()}
-            style={styles.backBtn}
-          >
-            <Image
-              source={require('@/../assets/icon/arrow.png')}
-              style={{
-                ...styles.backIcon,
-              }}
-            />
-          </TouchableOpacity>
-          <View style={styles.scanBox}>
-            <BarCodeScanner
-              onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
-              style={{ width: 400, height: 800 }}
-            />
-          </View>
-        </>
-      )}
+      {isLoading && <Loader />}
+      <>
+        <TouchableOpacity
+          onPress={() => navigation.goBack()}
+          style={styles.backBtn}
+        >
+          <Image
+            source={require('@/../assets/icon/arrow.png')}
+            style={{
+              ...styles.backIcon,
+            }}
+          />
+        </TouchableOpacity>
+        <View style={styles.scanBox}>
+          <BarCodeScanner
+            onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
+            style={{ width: 400, height: 800 }}
+          />
+        </View>
+      </>
     </View>
   );
 };

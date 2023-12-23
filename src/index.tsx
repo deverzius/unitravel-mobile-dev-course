@@ -7,6 +7,7 @@ import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import { ApplicationNavigator } from "./Navigation";
 import { useFonts } from 'expo-font';
+import { Toast } from "react-native-toast-message/lib/src/Toast";
 
 let montFonts = {
   montBlack: require('../assets/fonts/Montserrat-Black.ttf'),
@@ -32,6 +33,7 @@ export default function App() {
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
           <ApplicationNavigator />
+          <Toast />
         </PersistGate>
       </Provider>
     </NativeBaseProvider>
