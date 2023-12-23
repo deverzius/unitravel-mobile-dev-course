@@ -14,4 +14,18 @@ const loginApi = API.injectEndpoints({
   overrideExisting: true,
 });
 
+const signupApi = API.injectEndpoints({
+  endpoints: (build) => ({
+    signup: build.mutation<User, Partial<User>>({
+      query: (userData) => ({
+        url: 'auth/register',
+        method: 'POST',
+        body: userData,
+      }),
+    }),
+  }),
+  overrideExisting: true,
+});
+
 export const { useLoginMutation } = loginApi;
+export const { useSignupMutation } = signupApi;

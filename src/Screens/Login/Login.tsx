@@ -27,23 +27,32 @@ export const Login = (props: ILoginProps) => {
   const [canRead, setCanRead] = useState(true);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [checkLogin, setCheckLogin] = useState(false);
+  const [isFirstRender, setIsFirstRender] = useState(true);
   const [signin, { data, isSuccess, isLoading, error }] = useLoginMutation();
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = async (e: any) => {
     const userData = {
       email,
       password,
     };
-    signin(userData);
+    await signin(userData);
+    setCheckLogin(!checkLogin);
   };
 
-  if (isSuccess) {
-    navigation.navigate(RootScreens.MAIN);
-  } else {
-    if (email != '') {
-      Toast.error('Tài khoản hoặc mật khẩu không hợp lệ!');
+  useEffect(() => {
+    setIsFirstRender(false);
+  }, []);
+
+  useEffect(() => {
+    if (isSuccess) {
+      navigation.navigate(RootScreens.MAIN);
+    } else {
+      if (!isFirstRender) {
+        Toast.error('Tài khoản hoặc mật khẩu không hợp lệ!');
+      }
     }
-  }
+  }, [checkLogin]);
 
   return (
     <View style={styles.container}>

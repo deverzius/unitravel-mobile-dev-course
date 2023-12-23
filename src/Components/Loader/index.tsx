@@ -9,10 +9,10 @@ export const Loader = () => {
     <View style={{ ...styles.loader }}>
       <Spinner
         accessibilityLabel="Loading posts"
-        color={Colors.INDIGO3}
+        color={Colors.WHITE}
         style={{ ...styles.spinner }}
       />
-      <Heading color={Colors.INDIGO3} fontSize="md">
+      <Heading color={Colors.WHITE} fontSize="md">
         {i18n.t(LocalizationKey.LOADING)}
       </Heading>
     </View>
@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'row',
-    backgroundColor: 'rgba(52, 52, 52, 0.4)',
+    backgroundColor: 'rgba(52, 52, 52, 0.8)',
     width: '100%',
     height: '100%',
     zIndex: 999,
