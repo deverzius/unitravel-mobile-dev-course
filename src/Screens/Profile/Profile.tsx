@@ -11,7 +11,7 @@ import { useLogoutMutation } from '@/Services';
 import { RootStacks } from '..';
 
 export interface IProfileProps {
-  isLoading: any;
+  navigation: any;
 }
 
 export const Profile = (props: IProfileProps) => {
@@ -24,10 +24,14 @@ export const Profile = (props: IProfileProps) => {
     setCheckLogout(!checkLogout);
   };
 
+  const handleLogout = async () => {
+    await AsyncStorage.removeItem('user');
+    navigation.navigate(RootStacks.AUTH);
+  };
+
   useEffect(() => {
     if (isSuccess) {
-      AsyncStorage.removeItem('user');
-      navigation.navigate(RootStacks.AUTH);
+      handleLogout();
     }
   }, [checkLogout]);
 
