@@ -13,7 +13,7 @@ export const Splash = (props: {
   const handleNavigate = async () => {
     const token = await AsyncStorage.getItem('onboarding');
     if (token) {
-      props.onNavigate(RootStacks.MAIN);
+      props.onNavigate(RootStacks.AUTH);
     } else {
       props.onNavigate(RootStacks.ONBOARDING);
     }
