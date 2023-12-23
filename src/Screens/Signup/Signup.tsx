@@ -31,7 +31,7 @@ export const Signup = (props: ISignupProps) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [againPassword, setAgainPassword] = useState('');
-  const [checkLogin, setCheckLogin] = useState(false);
+  const [checkSignup, setCheckSignup] = useState(false);
   const [signup, { data, isSuccess, isLoading, error }] = useSignupMutation();
 
   const handleSubmit = async (e: any) => {
@@ -44,11 +44,10 @@ export const Signup = (props: ISignupProps) => {
       password,
     };
     await signup(userData);
-    setCheckLogin(!checkLogin);
+    setCheckSignup(!checkSignup);
   };
 
   useEffect(() => {
-    console.log(1);
     if (isSuccess) {
       Toast.success('Tạo tài khoản thành công!');
       navigation.navigate(RootStacks.AUTH, {
@@ -60,7 +59,7 @@ export const Signup = (props: ISignupProps) => {
         Toast.error(error.data.error.message);
       }
     }
-  }, [checkLogin]);
+  }, [checkSignup]);
 
   return (
     <View style={styles.container}>

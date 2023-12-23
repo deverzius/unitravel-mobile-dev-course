@@ -27,5 +27,18 @@ const signupApi = API.injectEndpoints({
   overrideExisting: true,
 });
 
+const logoutApi = API.injectEndpoints({
+  endpoints: (build) => ({
+    logout: build.mutation<User, void>({
+      query: () => ({
+        url: 'auth/signout',
+        method: 'POST',
+      }),
+    }),
+  }),
+  overrideExisting: true,
+});
+
 export const { useLoginMutation } = loginApi;
 export const { useSignupMutation } = signupApi;
+export const { useLogoutMutation } = logoutApi;

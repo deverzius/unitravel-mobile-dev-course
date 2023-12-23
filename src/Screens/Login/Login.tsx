@@ -46,6 +46,7 @@ export const Login = (props: ILoginProps) => {
 
   useEffect(() => {
     if (isSuccess) {
+      AsyncStorage.setItem('user', 'token');
       navigation.navigate(RootScreens.MAIN);
     } else {
       if (!isFirstRender) {
