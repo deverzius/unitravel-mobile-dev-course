@@ -1,63 +1,53 @@
 import { i18n, LocalizationKey } from '@/Localization';
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
-import { HStack, Spinner, Heading } from 'native-base';
-import { User } from '@/Services';
+import { Heading } from 'native-base';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { textStyle } from '@/Theme/Variables';
 import CusText from '@/Components/CusText';
 import { Colors } from '@/Theme/Variables';
 import { RootScreens } from '..';
+import { Loader } from '@/Components/Loader';
 
 export interface IScanProps {
-  data: User | undefined;
-  isLoading: boolean;
   navigation: any;
 }
 
-
 export const Scan = (props: IScanProps) => {
-  const { data, isLoading, navigation } = props;
+  const { navigation } = props;
+  const [isLoading, setIsLoading] = useState(false);
 
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
-      {isLoading ? (
-        <HStack space={2} justifyContent="center">
-          <Spinner accessibilityLabel="Loading posts" />
-          <Heading color="primary.500" fontSize="md">
-            {i18n.t(LocalizationKey.LOADING)}
-          </Heading>
-        </HStack>
-      ) : (
-        <>
-          <TouchableOpacity
-            onPress={() => navigation.goBack()}
-            style={styles.backBtn}
-          >
-            <Image
-              source={require('@/../assets/icon/arrow.png')}
-              style={{
-                ...styles.backIcon,
-              }}
-            />
-          </TouchableOpacity>
-          <Text style={styles.scanHeader}>Quét mã QR</Text>
+      {isLoading && <Loader />}
+      <>
+        <TouchableOpacity
+          onPress={() => navigation.goBack()}
+          style={styles.backBtn}
+        >
           <Image
-            source={require('@/../assets/icon/scan-qr.png')}
+            source={require('@/../assets/icon/arrow.png')}
             style={{
-              ...styles.iconHome,
+              ...styles.backIcon,
             }}
           />
-          <TouchableOpacity
-            onPress={() => navigation.push(RootScreens.QR)}
-            style={[styles.btn, styles.lgBtn]}
-          >
-            <CusText style={styles.btnText}>Quét</CusText>
-          </TouchableOpacity>
-        </>
-      )}
+        </TouchableOpacity>
+        <Text style={styles.scanHeader}>Quét mã QR</Text>
+        <Image
+          source={require('@/../assets/icon/scan-qr.png')}
+          style={{
+            ...styles.iconHome,
+          }}
+        />
+        <TouchableOpacity
+          onPress={() => navigation.push(RootScreens.QR)}
+          style={[styles.btn, styles.lgBtn]}
+        >
+          <CusText style={styles.btnText}>Quét</CusText>
+        </TouchableOpacity>
+      </>
     </View>
   );
 };
@@ -107,5 +97,5 @@ const styles = StyleSheet.create({
   backIcon: {
     width: 20,
     height: 15,
-  }
+  },
 });

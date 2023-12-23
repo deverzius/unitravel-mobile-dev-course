@@ -1,24 +1,13 @@
 import { Login } from './Login';
-import React, { useState, useEffect } from 'react';
-import { useLazyGetUserQuery } from '@/Services';
+import React, { useEffect } from 'react';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '@/Navigation/stacks';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { RootStacks } from '..';
 
-type AuthScreenNavigatorProps = NativeStackScreenProps<
-  RootStackParamList
->;
+type AuthScreenNavigatorProps = NativeStackScreenProps<RootStackParamList>;
 
 export const LoginContainer = ({ navigation }: AuthScreenNavigatorProps) => {
-  const [userId, setUserId] = useState('9');
-
-  const [fetchOne, { data, isSuccess, isLoading, isFetching, error }] =
-    useLazyGetUserQuery();
-
-  useEffect(() => {
-    fetchOne(userId);
-  }, [fetchOne, userId]);
 
   useEffect(() => {
     handleNavigate();
@@ -31,7 +20,5 @@ export const LoginContainer = ({ navigation }: AuthScreenNavigatorProps) => {
     }
   };
 
-  console.log(useLazyGetUserQuery);
-
-  return <Login data={data} isLoading={isLoading} navigation={navigation} />;
+  return <Login navigation={navigation} />;
 };

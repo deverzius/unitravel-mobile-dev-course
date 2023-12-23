@@ -1,5 +1,5 @@
 import { i18n, LocalizationKey } from '@/Localization';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -9,27 +9,55 @@ import {
   TouchableHighlight,
   TouchableOpacity,
 } from 'react-native';
-import { StatusBar } from 'expo-status-bar';
-import { HStack, Spinner, Heading } from 'native-base';
-import { User } from '@/Services';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Colors } from '@/Theme/Variables';
 import { textStyle } from '@/Theme/Variables';
 import CusText from '@/Components/CusText';
 import { RootScreens } from '..';
+import { useLoginMutation } from '@/Services';
+import Toast from '@/Components/Toast';
+import { Loader } from '@/Components/Loader';
 
 export interface ILoginProps {
-  data: User | undefined;
-  isLoading: boolean;
   navigation: any;
 }
 
 export const Login = (props: ILoginProps) => {
-  const { data, isLoading, navigation } = props;
+  const { navigation } = props;
   const [canRead, setCanRead] = useState(true);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [checkLogin, setCheckLogin] = useState(false);
+  const [isFirstRender, setIsFirstRender] = useState(true);
+  const [signin, { data, isSuccess, isLoading, error }] = useLoginMutation();
+
+  const handleSubmit = async (e: any) => {
+    const userData = {
+      email,
+      password,
+    };
+    await signin(userData);
+    setCheckLogin(!checkLogin);
+  };
+
+  useEffect(() => {
+    setIsFirstRender(false);
+  }, []);
+
+  useEffect(() => {
+    if (isSuccess) {
+      AsyncStorage.setItem('user', 'token');
+      navigation.navigate(RootScreens.MAIN);
+    } else {
+      if (!isFirstRender) {
+        Toast.error('Tài khoản hoặc mật khẩu không hợp lệ!');
+      }
+    }
+  }, [checkLogin]);
 
   return (
     <View style={styles.container}>
+      {isLoading && <Loader />}
       <>
         <View style={{ ...styles.circle }}></View>
         <View style={{ ...styles.logoCtn, ...styles.marginTop }}>
@@ -55,6 +83,8 @@ export const Login = (props: ILoginProps) => {
               style={[styles.btn]}
               placeholder="Email hoặc số điện thoại"
               placeholderTextColor={Colors.BLACK}
+              value={email}
+              onChangeText={setEmail}
             />
           </View>
           <View style={{ ...styles.logoCtn }}>
@@ -84,11 +114,13 @@ export const Login = (props: ILoginProps) => {
               secureTextEntry={canRead}
               placeholder="Mật khẩu"
               placeholderTextColor={Colors.BLACK}
+              value={password}
+              onChangeText={setPassword}
             />
           </View>
           <Text style={{ ...styles.forgotPassword }}> Quên mật khẩu </Text>
           <TouchableOpacity
-            onPress={() => navigation.navigate(RootScreens.MAIN)}
+            onPress={handleSubmit}
             style={[styles.btn, styles.lgBtn]}
           >
             <CusText style={styles.login}>Đăng nhập</CusText>

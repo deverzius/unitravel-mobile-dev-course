@@ -1,5 +1,5 @@
 import { i18n, LocalizationKey } from '@/Localization';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -10,155 +10,185 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
-import { HStack, Spinner, Heading } from 'native-base';
-import { User } from '@/Services';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Colors } from '@/Theme/Variables';
 import { textStyle } from '@/Theme/Variables';
 import CusText from '@/Components/CusText';
-import { RootScreens } from '..';
+import { RootScreens, RootStacks } from '..';
+import { Loader } from '@/Components/Loader';
+import { useSignupMutation } from '@/Services';
+import Toast from '@/Components/Toast';
 
 export interface ISignupProps {
-  data: User | undefined;
-  isLoading: boolean;
   navigation: any;
 }
 
 export const Signup = (props: ISignupProps) => {
-  const { data, isLoading, navigation } = props;
+  const { navigation } = props;
   const [canRead, setCanRead] = useState(true);
   const [canReadAgain, setCanReadAgain] = useState(true);
+
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [againPassword, setAgainPassword] = useState('');
+  const [checkSignup, setCheckSignup] = useState(false);
+  const [signup, { data, isSuccess, isLoading, error }] = useSignupMutation();
+
+  const handleSubmit = async (e: any) => {
+    if (password !== againPassword) {
+      Toast.error('Mật khẩu không khớp!');
+      return;
+    }
+    const userData = {
+      email,
+      password,
+    };
+    await signup(userData);
+    setCheckSignup(!checkSignup);
+  };
+
+  useEffect(() => {
+    if (isSuccess) {
+      Toast.success('Tạo tài khoản thành công!');
+      navigation.navigate(RootStacks.AUTH, {
+        screen: RootScreens.LOGIN,
+      });
+    }
+    else {
+      if (error) {
+        Toast.error(error.data.error.message);
+      }
+    }
+  }, [checkSignup]);
 
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
-      {isLoading ? (
-        <HStack space={2} justifyContent="center">
-          <Spinner accessibilityLabel="Loading posts" />
-          <Heading color="primary.500" fontSize="md">
-            {i18n.t(LocalizationKey.LOADING)}
-          </Heading>
-        </HStack>
-      ) : (
-        <>
-          <View style={{ ...styles.circle }}></View>
-          <View style={{ ...styles.logoCtn, ...styles.marginTop }}>
+      {isLoading && <Loader />}
+      <>
+        <View style={{ ...styles.circle }}></View>
+        <View style={{ ...styles.logoCtn, ...styles.marginTop }}>
+          <Image
+            source={require('@/../assets/logo/logo1.png')}
+            style={{
+              ...styles.logo,
+            }}
+          />
+          <Text style={{ ...styles.logoDesc }}>
+            Discover the hidden gems of your university
+          </Text>
+        </View>
+        <View style={{ ...styles.logoCtn }}>
+          <View style={{ ...styles.logoCtn, ...styles.marginBottom }}>
             <Image
-              source={require('@/../assets/logo/logo1.png')}
+              source={require('@/../assets/icon/auth-icon-1.png')}
               style={{
-                ...styles.logo,
+                ...styles.icon,
               }}
             />
-            <Text style={{ ...styles.logoDesc }}>
-              Discover the hidden gems of your university
-            </Text>
+            <TextInput
+              style={[styles.btn]}
+              placeholder="Email hoặc số điện thoại"
+              placeholderTextColor={Colors.BLACK}
+              value={email}
+              onChangeText={setEmail}
+            />
           </View>
-          <View style={{ ...styles.logoCtn }}>
-            <View style={{ ...styles.logoCtn, ...styles.marginBottom }}>
-              <Image
-                source={require('@/../assets/icon/auth-icon-1.png')}
-                style={{
-                  ...styles.icon,
-                }}
-              />
-              <TextInput
-                style={[styles.btn]}
-                placeholder="Email hoặc số điện thoại"
-                placeholderTextColor={Colors.BLACK}
-              />
-            </View>
-            <View style={{ ...styles.logoCtn, ...styles.marginBottom }}>
-              <Image
-                source={require('@/../assets/icon/auth-icon-2.png')}
-                style={{
-                  ...styles.icon,
-                }}
-              />
-              <TouchableHighlight
-                style={{ ...styles.icon1 }}
-                onPress={() => setCanRead(!canRead)}
-              >
-                <Image
-                  source={
-                    canRead
-                      ? require('@/../assets/icon/auth-icon-3.png')
-                      : require('@/../assets/icon/auth-icon-4.png')
-                  }
-                  style={{
-                    ...styles.icon2,
-                  }}
-                />
-              </TouchableHighlight>
-              <TextInput
-                style={[styles.btn]}
-                secureTextEntry={canRead}
-                placeholder="Mật khẩu"
-                placeholderTextColor={Colors.BLACK}
-              />
-            </View>
-            <View style={{ ...styles.logoCtn, ...styles.marginBottom }}>
-              <Image
-                source={require('@/../assets/icon/auth-icon-2.png')}
-                style={{
-                  ...styles.icon,
-                }}
-              />
-              <TouchableHighlight
-                style={{ ...styles.icon1 }}
-                onPress={() => setCanReadAgain(!canReadAgain)}
-              >
-                <Image
-                  source={
-                    canReadAgain
-                      ? require('@/../assets/icon/auth-icon-3.png')
-                      : require('@/../assets/icon/auth-icon-4.png')
-                  }
-                  style={{
-                    ...styles.icon2,
-                  }}
-                />
-              </TouchableHighlight>
-              <TextInput
-                style={[styles.btn]}
-                secureTextEntry={canReadAgain}
-                placeholder="Nhập lại mật khẩu"
-                placeholderTextColor={Colors.BLACK}
-              />
-            </View>
-            <TouchableOpacity
-              onPress={() => navigation.push(RootScreens.LOGIN)}
-              style={[styles.btn, styles.lgBtn]}
+          <View style={{ ...styles.logoCtn, ...styles.marginBottom }}>
+            <Image
+              source={require('@/../assets/icon/auth-icon-2.png')}
+              style={{
+                ...styles.icon,
+              }}
+            />
+            <TouchableHighlight
+              style={{ ...styles.icon1 }}
+              onPress={() => setCanRead(!canRead)}
             >
-              <CusText style={styles.login}>Đăng ký</CusText>
-            </TouchableOpacity>
+              <Image
+                source={
+                  canRead
+                    ? require('@/../assets/icon/auth-icon-3.png')
+                    : require('@/../assets/icon/auth-icon-4.png')
+                }
+                style={{
+                  ...styles.icon2,
+                }}
+              />
+            </TouchableHighlight>
+            <TextInput
+              style={[styles.btn]}
+              secureTextEntry={canRead}
+              placeholder="Mật khẩu"
+              placeholderTextColor={Colors.BLACK}
+              value={password}
+              onChangeText={setPassword}
+            />
           </View>
-          <View style={{ ...styles.logoCtn }}>
+          <View style={{ ...styles.logoCtn, ...styles.marginBottom }}>
             <Image
-              source={require('@/../assets/image/sep.png')}
+              source={require('@/../assets/icon/auth-icon-2.png')}
               style={{
-                ...styles.sep,
+                ...styles.icon,
               }}
             />
-            <Image
-              source={require('@/../assets/icon/social.png')}
-              style={{
-                ...styles.social,
-              }}
+            <TouchableHighlight
+              style={{ ...styles.icon1 }}
+              onPress={() => setCanReadAgain(!canReadAgain)}
+            >
+              <Image
+                source={
+                  canReadAgain
+                    ? require('@/../assets/icon/auth-icon-3.png')
+                    : require('@/../assets/icon/auth-icon-4.png')
+                }
+                style={{
+                  ...styles.icon2,
+                }}
+              />
+            </TouchableHighlight>
+            <TextInput
+              style={[styles.btn]}
+              secureTextEntry={canReadAgain}
+              placeholder="Nhập lại mật khẩu"
+              placeholderTextColor={Colors.BLACK}
+              value={againPassword}
+              onChangeText={setAgainPassword}
             />
-            <Text>
+          </View>
+          <TouchableOpacity
+            onPress={handleSubmit}
+            style={[styles.btn, styles.lgBtn]}
+          >
+            <CusText style={styles.login}>Đăng ký</CusText>
+          </TouchableOpacity>
+        </View>
+        <View style={{ ...styles.logoCtn }}>
+          <Image
+            source={require('@/../assets/image/sep.png')}
+            style={{
+              ...styles.sep,
+            }}
+          />
+          <Image
+            source={require('@/../assets/icon/social.png')}
+            style={{
+              ...styles.social,
+            }}
+          />
+          <Text>
+            {' '}
+            Bạn đã có tài khoản?{' '}
+            <Text
+              style={{ ...styles.forgotPassword }}
+              onPress={() => navigation.push(RootScreens.LOGIN)}
+            >
               {' '}
-              Bạn đã có tài khoản?{' '}
-              <Text
-                style={{ ...styles.forgotPassword }}
-                onPress={() => navigation.push(RootScreens.LOGIN)}
-              >
-                {' '}
-                Đăng nhập tại đây{' '}
-              </Text>
+              Đăng nhập tại đây{' '}
             </Text>
-          </View>
-        </>
-      )}
+          </Text>
+        </View>
+      </>
     </View>
   );
 };

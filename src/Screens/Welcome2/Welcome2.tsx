@@ -11,9 +11,11 @@ import { StatusBar } from 'expo-status-bar';
 import { RootStacks, RootScreens } from '..';
 import { textStyle } from '@/Theme/Variables';
 import { Colors } from '@/Theme/Variables';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const Welcome2 = (props: any) => {
   const { navigation } = props;
+  AsyncStorage.setItem('onboarding', 'true');
 
   return (
     <View style={styles.container}>

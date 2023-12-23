@@ -1,16 +1,10 @@
 import { Profile } from "./Profile";
 import React, { useState, useEffect } from "react";
-import { useLazyGetUserQuery } from "@/Services";
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { RootStackParamList } from '@/Navigation/stacks';
 
-export const ProfileContainer = () => {
-  const [userId, setUserId] = useState("9");
+type ProfileScreenNavigatorProps = NativeStackScreenProps<RootStackParamList>;
 
-  const [fetchOne, { data, isSuccess, isLoading, isFetching, error }] =
-    useLazyGetUserQuery();
-
-  useEffect(() => {
-    fetchOne(userId);
-  }, [fetchOne, userId]);
-
-  return <Profile data={data} isLoading={isLoading} />;
+export const ProfileContainer = ({ navigation }: ProfileScreenNavigatorProps) => {
+  return <Profile navigation={navigation} />;
 };
