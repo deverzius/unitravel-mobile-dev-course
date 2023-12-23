@@ -2,7 +2,7 @@ import { Signup } from './Signup';
 import React, { useState, useEffect } from 'react';
 import { useLazyGetUserQuery } from '@/Services';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { RootStackParamList } from '@/Navigation';
+import { RootStackParamList } from '@/Navigation/stacks';
 
 type AuthScreenNavigatorProps = NativeStackScreenProps<
   RootStackParamList

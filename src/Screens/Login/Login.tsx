@@ -30,106 +30,96 @@ export const Login = (props: ILoginProps) => {
 
   return (
     <View style={styles.container}>
-      <StatusBar style="auto" />
-      {isLoading ? (
-        <HStack space={2} justifyContent="center">
-          <Spinner accessibilityLabel="Loading posts" />
-          <Heading color="primary.500" fontSize="md">
-            {i18n.t(LocalizationKey.LOADING)}
-          </Heading>
-        </HStack>
-      ) : (
-        <>
-          <View style={{ ...styles.circle }}></View>
-          <View style={{ ...styles.logoCtn, ...styles.marginTop }}>
+      <>
+        <View style={{ ...styles.circle }}></View>
+        <View style={{ ...styles.logoCtn, ...styles.marginTop }}>
+          <Image
+            source={require('@/../assets/logo/logo1.png')}
+            style={{
+              ...styles.logo,
+            }}
+          />
+          <Text style={{ ...styles.logoDesc }}>
+            Discover the hidden gems of your university
+          </Text>
+        </View>
+        <View style={{ ...styles.logoCtn }}>
+          <View style={{ ...styles.logoCtn, ...styles.marginBottom }}>
             <Image
-              source={require('@/../assets/logo/logo1.png')}
+              source={require('@/../assets/icon/auth-icon-1.png')}
               style={{
-                ...styles.logo,
+                ...styles.icon,
               }}
             />
-            <Text style={{ ...styles.logoDesc }}>
-              Discover the hidden gems of your university
-            </Text>
+            <TextInput
+              style={[styles.btn]}
+              placeholder="Email hoặc số điện thoại"
+              placeholderTextColor={Colors.BLACK}
+            />
           </View>
           <View style={{ ...styles.logoCtn }}>
-            <View style={{ ...styles.logoCtn, ...styles.marginBottom }}>
-              <Image
-                source={require('@/../assets/icon/auth-icon-1.png')}
-                style={{
-                  ...styles.icon,
-                }}
-              />
-              <TextInput
-                style={[styles.btn]}
-                placeholder="Email hoặc số điện thoại"
-                placeholderTextColor={Colors.BLACK}
-              />
-            </View>
-            <View style={{ ...styles.logoCtn }}>
-              <Image
-                source={require('@/../assets/icon/auth-icon-2.png')}
-                style={{
-                  ...styles.icon,
-                }}
-              />
-              <TouchableHighlight
-                style={{ ...styles.icon1 }}
-                onPress={() => setCanRead(!canRead)}
-              >
-                <Image
-                  source={
-                    canRead
-                      ? require('@/../assets/icon/auth-icon-3.png')
-                      : require('@/../assets/icon/auth-icon-4.png')
-                  }
-                  style={{
-                    ...styles.icon2,
-                  }}
-                />
-              </TouchableHighlight>
-              <TextInput
-                style={[styles.btn]}
-                secureTextEntry={canRead}
-                placeholder="Mật khẩu"
-                placeholderTextColor={Colors.BLACK}
-              />
-            </View>
-            <Text style={{ ...styles.forgotPassword }}> Quên mật khẩu </Text>
-            <TouchableOpacity
-              onPress={() => navigation.navigate(RootScreens.MAIN)}
-              style={[styles.btn, styles.lgBtn]}
+            <Image
+              source={require('@/../assets/icon/auth-icon-2.png')}
+              style={{
+                ...styles.icon,
+              }}
+            />
+            <TouchableHighlight
+              style={{ ...styles.icon1 }}
+              onPress={() => setCanRead(!canRead)}
             >
-              <CusText style={styles.login}>Đăng nhập</CusText>
-            </TouchableOpacity>
+              <Image
+                source={
+                  canRead
+                    ? require('@/../assets/icon/auth-icon-3.png')
+                    : require('@/../assets/icon/auth-icon-4.png')
+                }
+                style={{
+                  ...styles.icon2,
+                }}
+              />
+            </TouchableHighlight>
+            <TextInput
+              style={[styles.btn]}
+              secureTextEntry={canRead}
+              placeholder="Mật khẩu"
+              placeholderTextColor={Colors.BLACK}
+            />
           </View>
-          <View style={{ ...styles.logoCtn }}>
-            <Image
-              source={require('@/../assets/image/sep.png')}
-              style={{
-                ...styles.sep,
-              }}
-            />
-            <Image
-              source={require('@/../assets/icon/social.png')}
-              style={{
-                ...styles.social,
-              }}
-            />
-            <Text>
+          <Text style={{ ...styles.forgotPassword }}> Quên mật khẩu </Text>
+          <TouchableOpacity
+            onPress={() => navigation.navigate(RootScreens.MAIN)}
+            style={[styles.btn, styles.lgBtn]}
+          >
+            <CusText style={styles.login}>Đăng nhập</CusText>
+          </TouchableOpacity>
+        </View>
+        <View style={{ ...styles.logoCtn }}>
+          <Image
+            source={require('@/../assets/image/sep.png')}
+            style={{
+              ...styles.sep,
+            }}
+          />
+          <Image
+            source={require('@/../assets/icon/social.png')}
+            style={{
+              ...styles.social,
+            }}
+          />
+          <Text>
+            {' '}
+            Chưa có tài khoản?{' '}
+            <Text
+              style={{ ...styles.forgotPassword }}
+              onPress={() => navigation.push(RootScreens.SIGNUP)}
+            >
               {' '}
-              Chưa có tài khoản?{' '}
-              <Text
-                style={{ ...styles.forgotPassword }}
-                onPress={() => navigation.push(RootScreens.SIGNUP)}
-              >
-                {' '}
-                Đăng ký tại đây{' '}
-              </Text>
+              Đăng ký tại đây{' '}
             </Text>
-          </View>
-        </>
-      )}
+          </Text>
+        </View>
+      </>
     </View>
   );
 };
