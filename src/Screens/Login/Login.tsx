@@ -14,7 +14,7 @@ import { Colors } from '@/Theme/Variables';
 import { textStyle } from '@/Theme/Variables';
 import CusText from '@/Components/CusText';
 import { RootScreens } from '..';
-import { useLoginMutation } from '@/Services';
+import { useLoginMutation, useGetUserMutation } from '@/Services';
 import Toast from '@/Components/Toast';
 import { Loader } from '@/Components/Loader';
 
@@ -28,8 +28,19 @@ export const Login = (props: ILoginProps) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [checkLogin, setCheckLogin] = useState(false);
+  const [checkUserData, setCheckUserData] = useState(false);
   const [isFirstRender, setIsFirstRender] = useState(true);
-  const [signin, { data, isSuccess, isLoading, error }] = useLoginMutation();
+  const [
+    signin,
+    {
+      data: signinData,
+      isSuccess: signinSuccess,
+      isLoading: signinLoading,
+      error: signinError,
+    },
+  ] = useLoginMutation();
+  const [getUser, { data: getUserData, isSuccess: getUserSuccess }] =
+    useGetUserMutation();
 
   const handleSubmit = async (e: any) => {
     const userData = {
@@ -41,7 +52,12 @@ export const Login = (props: ILoginProps) => {
   };
 
   const handleSuccess = async () => {
-    await AsyncStorage.setItem('user', 'token');
+    const userData = {
+      username,
+    };
+    await getUser(userData);
+    setCheckUserData(!checkUserData);
+    await AsyncStorage.setItem('user', JSON.stringify(userData));
     navigation.navigate(RootScreens.MAIN);
   };
 
@@ -50,7 +66,7 @@ export const Login = (props: ILoginProps) => {
   }, []);
 
   useEffect(() => {
-    if (isSuccess) {
+    if (signinSuccess) {
       handleSuccess();
     } else {
       if (!isFirstRender) {
@@ -59,9 +75,15 @@ export const Login = (props: ILoginProps) => {
     }
   }, [checkLogin]);
 
+  useEffect(() => {
+    if (!getUserSuccess && !isFirstRender) {
+      Toast.error('Lỗi tải dữ liệu!');
+    }
+  }, [checkUserData]);
+
   return (
     <View style={styles.container}>
-      {isLoading && <Loader />}
+      {signinLoading && <Loader />}
       <>
         <View style={{ ...styles.circle }}></View>
         <View style={{ ...styles.logoCtn, ...styles.marginTop }}>

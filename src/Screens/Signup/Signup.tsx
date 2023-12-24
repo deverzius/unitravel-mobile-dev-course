@@ -16,7 +16,7 @@ import { textStyle } from '@/Theme/Variables';
 import CusText from '@/Components/CusText';
 import { RootScreens, RootStacks } from '..';
 import { Loader } from '@/Components/Loader';
-import { useSignupMutation } from '@/Services';
+import { useSignupMutation, useCreateUserMutation } from '@/Services';
 import Toast from '@/Components/Toast';
 
 export interface ISignupProps {
@@ -27,12 +27,23 @@ export const Signup = (props: ISignupProps) => {
   const { navigation } = props;
   const [canRead, setCanRead] = useState(true);
   const [canReadAgain, setCanReadAgain] = useState(true);
-
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [againPassword, setAgainPassword] = useState('');
   const [checkSignup, setCheckSignup] = useState(false);
-  const [signup, { data, isSuccess, isLoading, error }] = useSignupMutation();
+  const [checkUserData, setCheckUserData] = useState(false);
+  const [isFirstRender, setIsFirstRender] = useState(true);
+  const [
+    signup,
+    {
+      data: signupData,
+      isSuccess: signupIsSuccess,
+      isLoading: signupIsLoading,
+      error: signupError,
+    },
+  ] = useSignupMutation();
+
+  const [addUser, { isSuccess: addUserIsSuccess }] = useCreateUserMutation();
 
   const handleSubmit = async (e: any) => {
     if (password !== againPassword) {
@@ -47,28 +58,49 @@ export const Signup = (props: ISignupProps) => {
     setCheckSignup(!checkSignup);
   };
 
+  const handleSuccess = async () => {
+    const userData = {
+      username,
+      password,
+    };
+    await addUser(userData);
+    setCheckUserData(!checkUserData);
+  };
+
   useEffect(() => {
-    if (isSuccess) {
-      Toast.success('Tạo tài khoản thành công!');
-      navigation.navigate(RootStacks.AUTH, {
-        screen: RootScreens.LOGIN,
-      });
+    if (signupIsSuccess) {
+      handleSuccess();
     } else {
-      if (error) {
+      if (signupError) {
         Toast.error(
-          error?.data?.error?.message ||
-            error?.message ||
-            error.error ||
+          signupError?.data?.error?.message ||
+            signupError?.message ||
+            signupError.error ||
             'Đã có lỗi xảy ra!'
         );
       }
     }
   }, [checkSignup]);
 
+  useEffect(() => {
+    if (!addUserIsSuccess && !isFirstRender) {
+      Toast.error('Lỗi tải dữ liệu!');
+    } else if (addUserIsSuccess && !isFirstRender) {
+      Toast.success('Tạo tài khoản thành công!');
+      navigation.navigate(RootStacks.AUTH, {
+        screen: RootScreens.LOGIN,
+      });
+    }
+  }, [checkUserData]);
+
+  useEffect(() => {
+    setIsFirstRender(false);
+  }, []);
+
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
-      {isLoading && <Loader />}
+      {signupIsLoading && <Loader />}
       <>
         <View style={{ ...styles.circle }}></View>
         <View style={{ ...styles.logoCtn, ...styles.marginTop }}>

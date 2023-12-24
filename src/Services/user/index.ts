@@ -1,13 +1,31 @@
 import { API } from '../base';
 import { User } from '../interfaces';
 
-const userApi = API.injectEndpoints({
+const getUserApi = API.injectEndpoints({
   endpoints: (build) => ({
-    getUser: build.query<User, string>({
-      query: (id) => `users/${id}`,
+    getUser: build.mutation<User, Partial<User>>({
+      query: (userData) => ({
+        url: 'users',
+        method: 'POST',
+        body: userData,
+      }),
     }),
   }),
   overrideExisting: true,
 });
 
-export const { useLazyGetUserQuery } = userApi;
+const createUserApi = API.injectEndpoints({
+  endpoints: (build) => ({
+    createUser: build.mutation<User, Partial<User>>({
+      query: (userData) => ({
+        url: 'users/addUser',
+        method: 'POST',
+        body: userData,
+      }),
+    }),
+  }),
+  overrideExisting: true,
+});
+
+export const { useGetUserMutation } = getUserApi;
+export const { useCreateUserMutation } = createUserApi;

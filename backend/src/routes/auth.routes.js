@@ -1,5 +1,4 @@
 const { Router } = require('express');
-const { AUTH_ENDPOINT } = require('../constants');
 const { authenticate, register, signout } = require('../controllers/auth.controllers');
 
 const router = Router();
