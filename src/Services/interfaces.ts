@@ -3,7 +3,7 @@ export interface User {
   phone: string;
   password: string;
   citizen: string;
-  name: string;
+  username: string;
   image: Image;
 }
 

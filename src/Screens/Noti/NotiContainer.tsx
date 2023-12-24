@@ -1,16 +1,10 @@
 import { Noti } from "./Noti";
-import React, { useState, useEffect } from "react";
-import { useLazyGetUserQuery } from "@/Services";
+import React from "react";
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { RootStackParamList } from '@/Navigation/stacks';
 
-export const NotiContainer = () => {
-  const [userId, setUserId] = useState("9");
+type NotiScreenNavigatorProps = NativeStackScreenProps<RootStackParamList>;
 
-  const [fetchOne, { data, isSuccess, isLoading, isFetching, error }] =
-    useLazyGetUserQuery();
-
-  useEffect(() => {
-    fetchOne(userId);
-  }, [fetchOne, userId]);
-
-  return <Noti data={data} isLoading={isLoading} />;
+export const NotiContainer = ({ navigation }: NotiScreenNavigatorProps) => {
+  return <Noti navigation={navigation} />;
 };
