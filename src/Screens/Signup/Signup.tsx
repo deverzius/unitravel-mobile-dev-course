@@ -43,7 +43,7 @@ export const Signup = (props: ISignupProps) => {
     },
   ] = useSignupMutation();
 
-  const [addUser, { isSuccess: addUserIsSuccess }] = useCreateUserMutation();
+  const [addUser, { isSuccess: addUserIsSuccess, error: addUserError }] = useCreateUserMutation();
 
   const handleSubmit = async (e: any) => {
     if (password !== againPassword) {
@@ -76,6 +76,7 @@ export const Signup = (props: ISignupProps) => {
           signupError?.data?.error?.message ||
             signupError?.message ||
             signupError.error ||
+            signupError?.data?.message ||
             'Đã có lỗi xảy ra!'
         );
       }
