@@ -18,7 +18,7 @@ const createUserApi = API.injectEndpoints({
   endpoints: (build) => ({
     createUser: build.mutation<User, Partial<User>>({
       query: (userData) => ({
-        url: 'users/addUser',
+        url: 'users/add-user',
         method: 'POST',
         body: userData,
       }),
