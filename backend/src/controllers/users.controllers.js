@@ -18,7 +18,12 @@ async function getUser(req, res) {
     .eq(isEmail ? 'email' : 'phone', userData);
 
   if (error) {
-    return res.status(error.status).json({ data, error });
+    return res.status(500).json({
+      error: 'An error occurred',
+      details: error.details,
+      hint: error.hint,
+      message: error.message,
+    });
   }
 
   return res.json({ data, error });
@@ -41,7 +46,12 @@ async function createUser(req, res) {
     .insert(loginData);
 
   if (error) {
-    return res.status(error.status).json({ data, error });
+    return res.status(500).json({
+      error: 'An error occurred',
+      details: error.details,
+      hint: error.hint,
+      message: error.message,
+    });
   }
 
   return res.json({ data, error });

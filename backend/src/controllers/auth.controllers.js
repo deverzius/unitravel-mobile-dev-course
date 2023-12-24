@@ -17,7 +17,12 @@ async function authenticate(req, res) {
   );
 
   if (error) {
-    return res.status(error.status).json({ data, error });
+    return res.status(500).json({
+      error: 'An error occurred',
+      details: error.details,
+      hint: error.hint,
+      message: error.message,
+    });
   }
 
   return res.json({ data, error });
@@ -38,7 +43,12 @@ async function register(req, res) {
   const { data, error } = await supabaseInstance.auth.signUp(signUpData);
 
   if (error) {
-    return res.status(error.status).json({ data, error });
+    return res.status(500).json({
+      error: 'An error occurred',
+      details: error.details,
+      hint: error.hint,
+      message: error.message,
+    });
   }
 
   return res.json({ data, error });
@@ -48,7 +58,12 @@ async function signout(req, res) {
   const { error } = await supabaseInstance.auth.signOut();
 
   if (error) {
-    return res.status(error.status).json({ error });
+    return res.status(500).json({
+      error: 'An error occurred',
+      details: error.details,
+      hint: error.hint,
+      message: error.message,
+    });
   }
 
   return res.status(200).json({ message: 'Signed out' });
