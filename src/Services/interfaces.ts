@@ -8,6 +8,7 @@ export interface User {
 }
 
 export interface Image {
+  id: string,
   size: number;
   description: string;
   url: string;
@@ -38,8 +39,8 @@ export interface Notification {
 }
 
 export interface Routing {
-  start_location: Location;
-  end_location: Location;
+  start_id: string;
+  end_id: string;
   direction: string;
   distance: number;
   walk_time: number;
