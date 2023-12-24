@@ -25,7 +25,7 @@ export interface ILoginProps {
 export const Login = (props: ILoginProps) => {
   const { navigation } = props;
   const [canRead, setCanRead] = useState(true);
-  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [checkLogin, setCheckLogin] = useState(false);
   const [isFirstRender, setIsFirstRender] = useState(true);
@@ -33,7 +33,7 @@ export const Login = (props: ILoginProps) => {
 
   const handleSubmit = async (e: any) => {
     const userData = {
-      email,
+      username,
       password,
     };
     await signin(userData);
@@ -83,8 +83,8 @@ export const Login = (props: ILoginProps) => {
               style={[styles.btn]}
               placeholder="Email hoặc số điện thoại"
               placeholderTextColor={Colors.BLACK}
-              value={email}
-              onChangeText={setEmail}
+              value={username}
+              onChangeText={setUsername}
             />
           </View>
           <View style={{ ...styles.logoCtn }}>

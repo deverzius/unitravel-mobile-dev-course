@@ -28,7 +28,7 @@ export const Signup = (props: ISignupProps) => {
   const [canRead, setCanRead] = useState(true);
   const [canReadAgain, setCanReadAgain] = useState(true);
 
-  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [againPassword, setAgainPassword] = useState('');
   const [checkSignup, setCheckSignup] = useState(false);
@@ -40,7 +40,7 @@ export const Signup = (props: ISignupProps) => {
       return;
     }
     const userData = {
-      email,
+      username,
       password,
     };
     await signup(userData);
@@ -53,10 +53,14 @@ export const Signup = (props: ISignupProps) => {
       navigation.navigate(RootStacks.AUTH, {
         screen: RootScreens.LOGIN,
       });
-    }
-    else {
+    } else {
       if (error) {
-        Toast.error(error.data.error.message);
+        Toast.error(
+          error?.data?.error?.message ||
+            error?.message ||
+            error.error ||
+            'Đã có lỗi xảy ra!'
+        );
       }
     }
   }, [checkSignup]);
@@ -90,8 +94,8 @@ export const Signup = (props: ISignupProps) => {
               style={[styles.btn]}
               placeholder="Email hoặc số điện thoại"
               placeholderTextColor={Colors.BLACK}
-              value={email}
-              onChangeText={setEmail}
+              value={username}
+              onChangeText={setUsername}
             />
           </View>
           <View style={{ ...styles.logoCtn, ...styles.marginBottom }}>

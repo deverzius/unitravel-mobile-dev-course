@@ -1,42 +1,57 @@
 const { supabaseInstance } = require('../supabase');
 
 async function authenticate(req, res) {
-	const { data, error } = await supabaseInstance.auth.signInWithPassword({
-		email: req.body.email,
-		password: req.body.password,
-	})
+  const username = req.body.username;
+  const loginData = {
+    password: req.body.password,
+  };
 
-	if (error)
-	{
-		return res.status(error.status).json({ data, error })
-	}
+  if (username.includes('@')) {
+    loginData.email = username;
+  } else {
+    loginData.phone = '+84' + username;
+  }
 
-	return res.json({ data, error })
+  const { data, error } = await supabaseInstance.auth.signInWithPassword(
+    loginData
+  );
+
+  if (error) {
+    return res.status(error.status).json({ data, error });
+  }
+
+  return res.json({ data, error });
 }
 
-async function register(req, res) { 
-	const { data, error } = await supabaseInstance.auth.signUp({
-		email: req.body.email,
-		password: req.body.password,
-	})
+async function register(req, res) {
+  const username = req.body.username;
+  const signUpData = {
+    password: req.body.password,
+  };
 
-	if (error)
-	{
-		return res.status(error.status).json({ data, error })
-	}
+  if (username.includes('@')) {
+    signUpData.email = username;
+  } else {
+    signUpData.phone = '+84' + username;
+  }
 
-	return res.json({ data, error })
+  const { data, error } = await supabaseInstance.auth.signUp(signUpData);
+
+  if (error) {
+    return res.status(error.status).json({ data, error });
+  }
+
+  return res.json({ data, error });
 }
 
 async function signout(req, res) {
-	const { error } = await supabaseInstance.auth.signOut()
+  const { error } = await supabaseInstance.auth.signOut();
 
-	if (error)
-	{
-		return res.status(error.status).json({ error })
-	}
+  if (error) {
+    return res.status(error.status).json({ error });
+  }
 
-	return res.status(200).json({ message: 'Signed out' })
+  return res.status(200).json({ message: 'Signed out' });
 }
 
-module.exports = { authenticate, register, signout }
+module.exports = { authenticate, register, signout };
