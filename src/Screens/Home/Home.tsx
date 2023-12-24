@@ -5,7 +5,6 @@ import { StatusBar } from 'expo-status-bar';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Loader } from '@/Components/Loader';
 import { Heading } from 'native-base';
-import { useGetImageMutation } from '@/Services';
 
 export interface IHomeProps {
   navigation: any;
@@ -13,17 +12,6 @@ export interface IHomeProps {
 
 export const Home = (props: IHomeProps) => {
   const { navigation } = props;
-
-  const [fetchOne, { data, isSuccess, isLoading, error }] =
-    useGetImageMutation();
-
-  useEffect(() => {
-    fetchOne({
-      id: '4950b31e-2450-4135-9de2-fbf717a9b946',
-    });
-  }, []);
-
-  console.log(data);
 
   return (
     <View style={styles.container}>

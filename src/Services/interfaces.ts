@@ -8,7 +8,7 @@ export interface User {
 }
 
 export interface Image {
-  id: string,
+  id: string;
   size: number;
   description: string;
   url: string;
@@ -17,8 +17,8 @@ export interface Image {
 export interface Review {
   rate: number;
   content: string;
-  user_id: User;
-  location_id: Location;
+  user_id: string;
+  location_id: string;
 }
 
 export interface Location {
@@ -28,14 +28,15 @@ export interface Location {
   rate: number;
   main_image: Image;
   images: Image;
+  id: string;
 }
 
 export interface Notification {
-  user_id: User;
+  user_id: string;
   title: string;
   content: string;
   send_date: Date;
-  sender_id: User;
+  sender_id: string;
 }
 
 export interface Routing {
