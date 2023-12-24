@@ -40,14 +40,18 @@ export const Login = (props: ILoginProps) => {
     setCheckLogin(!checkLogin);
   };
 
+  const handleSuccess = async () => {
+    await AsyncStorage.setItem('user', 'token');
+    navigation.navigate(RootScreens.MAIN);
+  };
+
   useEffect(() => {
     setIsFirstRender(false);
   }, []);
 
   useEffect(() => {
     if (isSuccess) {
-      AsyncStorage.setItem('user', 'token');
-      navigation.navigate(RootScreens.MAIN);
+      handleSuccess();
     } else {
       if (!isFirstRender) {
         Toast.error('Tài khoản hoặc mật khẩu không hợp lệ!');

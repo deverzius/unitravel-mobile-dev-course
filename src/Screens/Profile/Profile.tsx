@@ -3,7 +3,6 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { Heading } from 'native-base';
-import { User } from '@/Services/interfaces';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Loader } from '@/Components/Loader';
 import { Colors } from '@/Theme/Variables';
@@ -38,11 +37,11 @@ export const Profile = (props: IProfileProps) => {
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
-      {isLoading && <Loader />}
+      {/* {isLoading && <Loader />} */}
       <>
         <Text>{i18n.t(LocalizationKey.PROFILE)}</Text>
         <Heading color="primary.500" fontSize="md">
-          {data?.username}
+          Hello World!
         </Heading>
         <TouchableOpacity style={styles.logoutBtn} onPress={handleSubmit}>
           <Text style={{ color: Colors.WHITE }}>Logout</Text>
