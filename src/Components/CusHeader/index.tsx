@@ -18,7 +18,7 @@ const CusHeader: FC<CusHeaderProps> = ({ style, children }) => {
           color: '#FFFFFF',
           fontFamily: 'montExtraBold'
         }}>
-          {children}
+          {`  ${children}  `}
         </Text>
       </TextStroke>
     </Heading>

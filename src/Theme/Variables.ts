@@ -25,6 +25,7 @@ export enum Colors {
   INDIGO4 = "#4B3987",
   INDIGO5 = "#400081",
   INDIGO6 = "#6546FF",
+  PRESS = "rgba(146, 143, 206, 0.1)",
 }
 
 export enum NavigationColors {

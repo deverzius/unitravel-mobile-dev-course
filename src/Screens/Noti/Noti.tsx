@@ -22,23 +22,18 @@ export const Noti = (props: INotiProps) => {
       <StatusBar style="auto" />
       {/* {isLoading && <Loader />} */}
       <>
-        {/* <Text>{i18n.t(LocalizationKey.NOTI)}</Text> */}        
         <CusHeader>
-          Thông báo
+          {i18n.t(LocalizationKey.NOTI)}
         </CusHeader>
-        <NotiItem />
-        <NotiItem />
-        <NotiItem />
+        <NotiItem navigation={navigation} />
+        <NotiItem navigation={navigation} />
+        <NotiItem navigation={navigation} />
       </>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  heading: {
-    paddingVertical: 60,
-    verticalAlign: 'middle',
-  },
   container: {
     flex: 1,
     backgroundColor: '#fff',

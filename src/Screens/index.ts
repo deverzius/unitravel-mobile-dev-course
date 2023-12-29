@@ -8,6 +8,7 @@ export enum RootScreens {
   SIGNUP = "Signup",
   SCAN = "Scan",
   QR = "QR",
+  SINGLENOTI = "SingleNoti",
 }
 
 export enum RootStacks {
@@ -16,4 +17,5 @@ export enum RootStacks {
   AUTH = "Auth",
   MAIN = "Main",
   SCAN = "Scan",
+  NOTI = "Noti",
 }
