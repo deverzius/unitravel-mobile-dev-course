@@ -1,38 +1,45 @@
 import { i18n, LocalizationKey } from '@/Localization';
-import React from 'react';
-import { View, Text, StyleSheet, TouchableHighlight } from 'react-native';
+import React, { useEffect } from 'react';
+import { View, Text, StyleSheet, TouchableHighlight, Image } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
-import { Box, Heading } from 'native-base';
+import { Box, Heading, Toast } from 'native-base';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Loader } from '@/Components/Loader';
 import { FontSize, Colors } from '@/Theme/Variables';
 import CusText from '@/Components/CusText';
 import { INotiProps } from './Noti';
-import { RootStacks } from '..';
+import { RootScreens, RootStacks } from '..';
 
+export const formatDate = (date: string) => { 
+	const d = new Date(date);
+	return `TPHCM, ${d.getHours()}:${d.getMinutes()}:${d.getSeconds()} ${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}`;
+}
 
 export const NotiItem = (props: INotiProps) => {
-	const { navigation } = props;
+	const { navigation, data } = props;	
 
 	return (
 		<TouchableHighlight
 			onPress={() => {
-				navigation.navigate(RootStacks.NOTI);
+				navigation.navigate(
+					RootStacks.NOTI,
+					{
+						screen: RootScreens.SINGLENOTI,
+						params: data
+					}
+				);
 			}}
 			style={styles.container_press}
 			underlayColor={Colors.PRESS}
 		>
 			<View style={styles.container}>
-				<View style={styles.image}>
-				</View>
+				<Image style={styles.image} source={{ uri: data?.image_url}} />
 				<View style={styles.contentContainer}>
-					<CusText style={styles.title}>Đại học Bách Khoa TP.HCM</CusText>
+					<CusText style={styles.title}>{data.title}</CusText>
 					<CusText style={styles.message}>
-						Đại học Bách Khoa TP.HCM vừa cập nhật mô tả của họ
-						Đại học Bách Khoa TP.HCM vừa cập nhật mô tả của họ
-						Đại học Bách Khoa TP.HCM vừa cập nhật mô tả của họ
+						{data.content}
 					</CusText>
-					<CusText style={styles.time}>TP.HCM, 18:00:00 05/03/2023</CusText>
+					<CusText style={styles.time}>{formatDate(data.send_date)}</CusText>
 				</View>
 			</View>
 		</TouchableHighlight>
@@ -62,7 +69,7 @@ const styles = StyleSheet.create({
 	},
 	image: {
 		width: 80,
-		backgroundColor: "red",
+		// backgroundColor: "red",
 		borderRadius: 50,
 		aspectRatio: 1 / 1
 	},

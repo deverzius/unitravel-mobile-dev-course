@@ -47,7 +47,10 @@ export const Login = (props: ILoginProps) => {
       username,
       password,
     };
-    await signin(userData);
+    await signin(userData).then(async res => {
+      await AsyncStorage.setItem('token', res.data.data.session.access_token)
+    });
+
     setCheckLogin(!checkLogin);
   };
 
@@ -57,6 +60,7 @@ export const Login = (props: ILoginProps) => {
     };
     await getUser(userData);
     setCheckUserData(!checkUserData);
+    
     await AsyncStorage.setItem('user', JSON.stringify(userData));
     navigation.navigate(RootScreens.MAIN);
   };
