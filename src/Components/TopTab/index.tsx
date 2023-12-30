@@ -1,7 +1,6 @@
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import { NotiContainer } from '@/Screens/Noti';
+import { SwiperComponent } from '../Swiper';
 import { Colors } from '@/Theme/Variables';
-
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -10,6 +9,7 @@ export function MyTabs() {
     <Tab.Navigator
       initialRouteName="Location"
       screenOptions={{
+        swipeEnabled: false,
         tabBarPressColor: Colors.INDIGO3,
         tabBarInactiveTintColor: 'black',
         tabBarActiveTintColor: Colors.INDIGO6,
@@ -19,22 +19,22 @@ export function MyTabs() {
     >
       <Tab.Screen
         name="All"
-        component={NotiContainer}
+        component={SwiperComponent}
         options={{ tabBarLabel: 'Tất cả' }}
       />
       <Tab.Screen
         name="Highlight"
-        component={NotiContainer}
+        component={SwiperComponent}
         options={{ tabBarLabel: 'Nổi bật' }}
       />
       <Tab.Screen
         name="Recent"
-        component={NotiContainer}
+        component={SwiperComponent}
         options={{ tabBarLabel: 'Gần đây' }}
       />
       <Tab.Screen
         name="Recommend"
-        component={NotiContainer}
+        component={SwiperComponent}
         options={{ tabBarLabel: 'Đề xuất' }}
       />
     </Tab.Navigator>

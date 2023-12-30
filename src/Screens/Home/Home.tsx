@@ -32,11 +32,10 @@ export const Home = (props: IHomeProps) => {
       </Heading>
     </View>
     <MyTabs/>
-    <SwiperComponent/>
-    <Text >{i18n.t(LocalizationKey.HOME)}</Text>
+    {/* <Text >{i18n.t(LocalizationKey.HOME)}</Text>
     <View style={styles.footer}>
       <Text>Hello footer</Text>
-    </View>
+    </View> */}
     
     </View>
   );
