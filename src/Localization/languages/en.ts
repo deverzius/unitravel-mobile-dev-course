@@ -5,4 +5,5 @@ export const en = {
   [LocalizationKey.HOME]: "Home",
   [LocalizationKey.START]: "Start",
   [LocalizationKey.LOADING]: "Loading",
+  [LocalizationKey.NOTI]: "Notifications",
 };

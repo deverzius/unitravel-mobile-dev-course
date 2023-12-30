@@ -7,6 +7,7 @@ import { QRContainer } from '@/Screens/QR';
 import { LoginContainer } from '@/Screens/Login';
 import { SignupContainer } from '@/Screens/Signup';
 import { RootScreens, RootStacks } from '@/Screens';
+import { SingleNotiContainer } from '@/Screens/Noti/SingleNotiContainer';
 
 export type RootStackParamList = {
     [RootStacks.MAIN]: undefined;
@@ -51,6 +52,14 @@ export function ScanStack() {
     <RootStack.Navigator screenOptions={{ headerShown: false }}>
       <RootStack.Screen name={RootScreens.SCAN} component={ScanContainer} />
       <RootStack.Screen name={RootScreens.QR} component={QRContainer} />
+    </RootStack.Navigator>
+  );
+}
+
+export function NotiStack() {
+  return (
+    <RootStack.Navigator screenOptions={{ headerShown: false }}>
+      <RootStack.Screen name={RootScreens.SINGLENOTI} component={SingleNotiContainer} />
     </RootStack.Navigator>
   );
 }
