@@ -1,18 +1,20 @@
 import { i18n, LocalizationKey } from '@/Localization';
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Image } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { Box, Container, Heading } from 'native-base';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Loader } from '@/Components/Loader';
-import { NotiItem } from './NotiItem';
+import { formatDate, NotiItem } from './NotiItem';
 import { TextStroke } from '@/Components/TextStroke';
 import { Colors, FontSize } from '@/Theme/Variables';
 import CusHeader from '@/Components/CusHeader';
+import { INotiProps } from './Noti';
 
 
-export const SingleNotiContainer = () => {
-  // const { navigation } = props;
+export const SingleNotiContainer = (props: any) => {
+  const data = props.route.params;
+
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
@@ -22,28 +24,28 @@ export const SingleNotiContainer = () => {
           Thông báo
         </CusHeader>
         <Container style={styles.mainContainer}>
-          <Box style={styles.image}></Box>
+          <Image style={styles.image} source={{ uri: data?.image_url}} />
           <Text style={styles.title}>
-            Đại học Bách Khoa TP.HCM
+            {data?.location_name}
           </Text>
           <View style={styles.contentContainer}>
             <Text style={styles.content}>
               <Text style={{ fontFamily: "montBold" }}>
                 {"Tiêu đề: "}
               </Text>
-              Cảm ơn bạn đã cho nhận xét về Đại học KH XH&NV
+              {data?.title}
             </Text>
             <Text style={styles.content}>
               <Text style={{ fontFamily: "montBold" }}>
                 {"Ngày gửi: "}
               </Text>
-              18:00:00 05/03/2023
+              {formatDate(data?.send_date)}
             </Text>
             <Text style={styles.content}>
               <Text style={{ fontFamily: "montBold" }}>
                 {"Nội dung: "}
               </Text>
-              Đại học KH XH&NV cảm ơn bạn đã để lại nhận xét cùng đánh giá 5 sao cho trường. Trường sẽ tiếp tục cố gắng để nâng cao chất lượng trong tương lai.
+              {data?.content}
             </Text>
           </View>
         </Container>
@@ -76,13 +78,14 @@ const styles = StyleSheet.create({
 
   image: {
     width: 150,
-    backgroundColor: "red",
+    backgroundColor: "transparent",
     borderRadius: 150,
     aspectRatio: 1 / 1,
     marginBottom: 20,
     marginTop: 30,
   },
   title: {
+    textAlign: "center",
     marginBottom: 38,
     fontSize: FontSize.SMALL,
     fontFamily: "montBold",
