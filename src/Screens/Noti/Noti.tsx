@@ -1,13 +1,10 @@
 import { i18n, LocalizationKey } from '@/Localization';
 import React, { useEffect } from 'react';
-import { View, Text, StyleSheet, FlatList } from 'react-native';
+import { View, Text, StyleSheet, FlatList, RefreshControl } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
-import { Heading, Toast } from 'native-base';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Loader } from '@/Components/Loader';
 import { NotiItem } from './NotiItem';
-import { TextStroke } from '@/Components/TextStroke';
-import { Colors, FontSize } from '@/Theme/Variables';
 import CusHeader from '@/Components/CusHeader';
 import { useGetNotisMutation } from '@/Services';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -19,7 +16,8 @@ export interface INotiProps {
 
 export const Noti = (props: INotiProps) => {
   const { navigation } = props;
-  // const [notis, setNotis] = React.useState([]);
+  const [refreshing, setRefreshing] = React.useState(false);
+
   const [
     getNotis,
     {
@@ -37,6 +35,13 @@ export const Noti = (props: INotiProps) => {
     // .catch(err => console.log('NotiError: ', err))
   }, [])
 
+  const onRefresh = React.useCallback(async () => {
+    setRefreshing(true)
+    await Promise.resolve(AsyncStorage.getItem('token'))
+      .then(token => getNotis({ token }))
+    
+    setRefreshing(false)
+  }, [refreshing]);
 
   return (
     <View style={styles.container} >
@@ -49,10 +54,13 @@ export const Noti = (props: INotiProps) => {
           </CusHeader>
 
           <SafeAreaView style={styles.safeArea}>
-            {notisSuccess && <FlatList
+            <FlatList
               data={notisData?.data}
               renderItem={({ item }) => <NotiItem navigation={navigation} data={item} />}
-            />}
+              refreshControl={
+                <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+              }
+            />
           </SafeAreaView>
           {/* {notis.map((item: any, index: any) => (
             <NotiItem navigation={navigation} data={item} key={index} />
