@@ -18,22 +18,22 @@ export function MyTabs() {
       }}
     >
       <Tab.Screen
-        name="All"
+        name="Tất cả"
         component={SwiperComponent}
         options={{ tabBarLabel: 'Tất cả' }}
       />
       <Tab.Screen
-        name="Highlight"
+        name="Nổi bật"
         component={SwiperComponent}
         options={{ tabBarLabel: 'Nổi bật' }}
       />
       <Tab.Screen
-        name="Recent"
+        name="Gần đây"
         component={SwiperComponent}
         options={{ tabBarLabel: 'Gần đây' }}
       />
       <Tab.Screen
-        name="Recommend"
+        name="Đề xuất"
         component={SwiperComponent}
         options={{ tabBarLabel: 'Đề xuất' }}
       />
