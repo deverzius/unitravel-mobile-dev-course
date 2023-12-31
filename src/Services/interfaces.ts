@@ -26,9 +26,10 @@ export interface Location {
   address: string;
   overview: string;
   rate: number;
-  main_image: Image;
-  images: Image;
+  main_image: string;
+  images: string;
   id: string;
+  imageUrl: string;
 }
 
 export interface Notification {

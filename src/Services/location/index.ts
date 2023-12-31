@@ -1,6 +1,11 @@
 import { API } from '../base';
 import { Location } from '../interfaces';
 
+interface expectedResult {
+  data: Location[],
+  error: any
+}
+
 const getLocationApi = API.injectEndpoints({
   endpoints: (build) => ({
     getLocation: build.mutation<Location, Partial<Location>>({
@@ -16,7 +21,7 @@ const getLocationApi = API.injectEndpoints({
 
 const getLocationsApi = API.injectEndpoints({
   endpoints: (build) => ({
-    getLocations: build.query<Location, void>({
+    getLocations: build.query<expectedResult, void>({
       query: () => 'locations',
     }),
   }),

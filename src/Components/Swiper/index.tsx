@@ -1,42 +1,107 @@
 import Swiper from 'react-native-swiper';
-import { Text, View, StyleSheet } from 'react-native';
+import { Text, View, StyleSheet, Image } from 'react-native';
+import { useLazyGetLocationsQuery } from '@/Services';
+import React, { useState, useEffect } from 'react';
+import { Location } from '@/Services/interfaces';
+import { Colors } from '@/Theme/Variables';
 
-export function SwiperComponent() {
+export function SwiperComponent(props: any) {
+  const [viewData, setViewData] = useState<Location[]>([]);
+  const [getLocations, {}] = useLazyGetLocationsQuery();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const result = await getLocations()
+      if(result.data?.data != undefined) setViewData(result.data?.data)
+    }
+    fetchData()
+  }, [])
+  
+  const page = viewData.map((items) => {        
     return (
-      <Swiper style={styles.wrapper} showsButtons={true}>
-        <View style={styles.slide1}>
-          <Text style={styles.text}>Welcome to our application!</Text>
+    <View key={items.id} style={styles.wrapper}>
+      <Image style={styles.image} source={{uri: items.imageUrl}} />
+      <Text style={styles.text1}>{items.name}</Text>
+      <View style={styles.textWrap}>
+        <Image style={styles.tinyicon1} source={require('@/../assets/icon/iconLocation.png')} />
+        <Text style={styles.text2}>{items.address}</Text>
+      </View>
+      <View style={styles.textWrap}>
+        <Image style={styles.tinyicon2} source={require('@/../assets/icon/iconStar.png')} />
+        <Text style={styles.text2}>{items.rate}</Text>
+      </View>
+    </View>)
+  })
+
+  return (
+    <View style={styles.container}>
+      <Swiper style={styles.wrapper} showsButtons={true} autoplay={true} dot={<View style={{}}/>} activeDot={<View style={{}}/>} >
+        {/* <View style={styles.slide1}>
+          <Text style={styles.text}>{String(props.route.name)}</Text>
         </View>
         <View style={styles.slide1}>
-          <Text style={styles.text}>Welcome to our application!</Text>
-        </View>
-        <View style={styles.slide1}>
-          <Text style={styles.text}>Welcome to our application!</Text>
-        </View>
-        <View style={styles.slide1}>
-          <Text style={styles.text}>Welcome to our application!</Text>
-        </View>
+          <Text>Welcome</Text>
+        </View> */}
+        {page}
       </Swiper>
-    )
+      <View style={styles.scroll}>
+      </View>
+    </View>
+  )
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    display: 'flex',
+    flexDirection: 'column',
+    height: 600,
+    backgroundColor: 'white',
   },
-  wrapper: {},
-  slide1: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'red'
+  wrapper: {
+    paddingTop: 7,
+    paddingLeft: 15,
+    paddingRight: 30,
+    paddingBottom: 20,
+    height: 250,
+    order: 1,
+    justifyContent: 'space-evenly',
+    textAlign: 'center',
+    borderBottomWidth: 5,
+    borderBottomColor: 'black',
   },
-  text: {
-    color: '#fff',
-    fontSize: 30,
-    fontWeight: 'bold'
+  image: {
+    width: 200,
+    height: 120,
+    borderRadius: 5,
+    alignSelf: 'center'
+  },
+  text2: {
+    fontSize: 10,
+    color: Colors.INDIGO6,
+    fontWeight: '400',
+  },
+  tinyicon1: {
+    width: 15,
+    height: 15,
+    marginRight: 3,
+  },
+  tinyicon2: {
+    width: 12,
+    height: 12,
+    marginLeft: 3,
+    marginRight: 3,
+  },
+  textWrap: {
+    display: 'flex',
+    flexDirection: 'row',
+  },
+  text1: {
+    fontSize: 14,
+    color: 'black',
+    fontWeight: '600',
+  },
+  scroll: {
+    height: 350,
+    order: 2,
   }
 });
