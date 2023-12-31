@@ -34,8 +34,8 @@ export const NotiItem = (props: INotiProps) => {
 			<View style={styles.container}>
 				<Image style={styles.image} source={{ uri: data?.image_url}} />
 				<View style={styles.contentContainer}>
-					<CusText style={styles.title}>{data.title}</CusText>
-					<CusText style={styles.message}>
+					<CusText style={styles.title} numberOfLines={2} ellipsizeMode='tail'>{data.title}</CusText>
+					<CusText style={styles.message} numberOfLines={3} ellipsizeMode='tail'>
 						{data.content}
 					</CusText>
 					<CusText style={styles.time}>{formatDate(data.send_date)}</CusText>
@@ -75,6 +75,7 @@ const styles = StyleSheet.create({
 	title: {
 		fontFamily: 'montBold',
 		fontSize: FontSize.SMALL,
+		lineHeight: FontSize.REGULAR,
 		textAlign: 'justify',
 		flexWrap: 'wrap'
 	},
