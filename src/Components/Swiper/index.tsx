@@ -1,6 +1,6 @@
 import Swiper from 'react-native-swiper';
 import { Text, View, StyleSheet, Image } from 'react-native';
-import { useLazyGetLocationsQuery } from '@/Services';
+import { useLazyGetLocationsQuery, useLazyGetFavoriteLocationsQuery, useLazyGetRecentlyLocationsQuery, useLazyGetRecommendedLocationsQuery } from '@/Services';
 import React, { useState, useEffect } from 'react';
 import { Location } from '@/Services/interfaces';
 import { Colors } from '@/Theme/Variables';
@@ -8,14 +8,29 @@ import { Colors } from '@/Theme/Variables';
 export function SwiperComponent(props: any) {
   const [viewData, setViewData] = useState<Location[]>([]);
   const [getLocations, {}] = useLazyGetLocationsQuery();
+  const [getFavoriteLocations, {}] = useLazyGetFavoriteLocationsQuery();
+  const [getRecentlyLocations, {}] = useLazyGetRecentlyLocationsQuery();
+  const [getRecommendedLocations, {}] = useLazyGetRecommendedLocationsQuery();
 
   useEffect(() => {
     const fetchData = async () => {
-      const result = await getLocations()
-      if(result.data?.data != undefined) setViewData(result.data?.data)
+      const result1 = await getLocations()
+      const result2 = await getFavoriteLocations()
+      const result3 = await getRecentlyLocations()
+      const result4 = await getRecommendedLocations()
+
+      if(props.route.name == "All") {
+        if(result1.data?.data != undefined) setViewData(result1.data?.data)
+      } else if(props.route.name == "Highlight") {
+        if(result2.data?.data != undefined) setViewData(result2.data?.data)
+      } else if(props.route.name == "Recent") {
+        if(result3.data?.data != undefined) setViewData(result3.data?.data)
+      } else if(props.route.name == "Recommend") {
+        if(result4.data?.data != undefined) setViewData(result4.data?.data)
+      }
     }
     fetchData()
-  }, [])
+  }, [props.route.name])
   
   const page = viewData.map((items) => {        
     return (
@@ -35,7 +50,7 @@ export function SwiperComponent(props: any) {
 
   return (
     <View style={styles.container}>
-      <Swiper style={styles.wrapper} showsButtons={true} autoplay={true} dot={<View style={{}}/>} activeDot={<View style={{}}/>} >
+      <Swiper style={styles.wrapper} loop={true} showsButtons={true} autoplay={true} dot={<View style={{}}/>} activeDot={<View style={{}}/>} >
         {/* <View style={styles.slide1}>
           <Text style={styles.text}>{String(props.route.name)}</Text>
         </View>
@@ -45,6 +60,7 @@ export function SwiperComponent(props: any) {
         {page}
       </Swiper>
       <View style={styles.scroll}>
+        <Text>{props.route.name}</Text>
       </View>
     </View>
   )

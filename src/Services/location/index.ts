@@ -30,7 +30,7 @@ const getLocationsApi = API.injectEndpoints({
 
 const getFavoriteLocationsApi = API.injectEndpoints({
   endpoints: (build) => ({
-    getFavoriteLocations: build.query<Location, void>({
+    getFavoriteLocations: build.query<expectedResult, void>({
       query: () => 'locations/is-favorite',
     }),
   }),
@@ -39,7 +39,7 @@ const getFavoriteLocationsApi = API.injectEndpoints({
 
 const getRecentlyLocationsApi = API.injectEndpoints({
   endpoints: (build) => ({
-    getRecentlyLocations: build.query<Location, void>({
+    getRecentlyLocations: build.query<expectedResult, void>({
       query: () => 'locations/is-recently',
     }),
   }),
@@ -48,7 +48,7 @@ const getRecentlyLocationsApi = API.injectEndpoints({
 
 const getRecommendedLocationsApi = API.injectEndpoints({
   endpoints: (build) => ({
-    getRecommendedLocations: build.query<Location, void>({
+    getRecommendedLocations: build.query<expectedResult, void>({
       query: () => 'locations/is-recommended',
     }),
   }),
