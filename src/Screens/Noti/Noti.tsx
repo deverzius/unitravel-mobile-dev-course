@@ -1,6 +1,6 @@
 import { i18n, LocalizationKey } from '@/Localization';
 import React, { useEffect } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, FlatList } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { Heading, Toast } from 'native-base';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -10,6 +10,7 @@ import { TextStroke } from '@/Components/TextStroke';
 import { Colors, FontSize } from '@/Theme/Variables';
 import CusHeader from '@/Components/CusHeader';
 import { useGetNotisMutation } from '@/Services';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export interface INotiProps {
   navigation: any;
@@ -18,7 +19,7 @@ export interface INotiProps {
 
 export const Noti = (props: INotiProps) => {
   const { navigation } = props;
-  const [notis, setNotis] = React.useState([]);
+  // const [notis, setNotis] = React.useState([]);
   const [
     getNotis,
     {
@@ -30,39 +31,32 @@ export const Noti = (props: INotiProps) => {
   ] = useGetNotisMutation();
 
   useEffect(() => {
-    new Promise(resolve => {
-      resolve(AsyncStorage.getItem('token'));
-    }).then(token => {
-      getNotis({ token });
-    });
+    Promise.resolve(AsyncStorage.getItem('token'))
+      .then(token => getNotis({ token }))
+    // .then((notis: any) => setNotis(notis?.data?.data))
+    // .catch(err => console.log('NotiError: ', err))
   }, [])
 
-  useEffect(() => {
-    if (notisSuccess) {
-      // console.log('Notis: ', notisData)
-      setNotis(notisData?.data);
-    }
-    if (notisError) {
-      console.log('NotisError: ', notisError)
-    }
-  }, [notisSuccess, notisError, notisData])
 
   return (
-    <View style={styles.container}>
+    <View style={styles.container} >
       <StatusBar style="auto" />
       {notisLoading ?
         <Loader /> :
         <>
-          <CusHeader>
+          <CusHeader style={styles.heading}>
             {i18n.t(LocalizationKey.NOTI)}
           </CusHeader>
-          {/* <NotiItem navigation={navigation} />
-        <NotiItem navigation={navigation} />
-        <NotiItem navigation={navigation} /> */}
 
-          {notisSuccess && notis.map((item: any, index: any) => (
+          <SafeAreaView style={styles.safeArea}>
+            {notisSuccess && <FlatList
+              data={notisData?.data}
+              renderItem={({ item }) => <NotiItem navigation={navigation} data={item} />}
+            />}
+          </SafeAreaView>
+          {/* {notis.map((item: any, index: any) => (
             <NotiItem navigation={navigation} data={item} key={index} />
-          ))}
+          ))} */}
         </>
       }
     </View>
@@ -73,7 +67,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center',
     justifyContent: 'flex-start',
   },
+  heading: {
+    marginBottom: 0,
+  },
+  safeArea: {
+  }
 });

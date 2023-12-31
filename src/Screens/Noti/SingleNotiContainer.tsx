@@ -58,14 +58,13 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: Colors.WHITE,
     flex: 1,
-    alignItems: 'center',
-    flexDirection: 'column'
+    alignItems: 'center'
   },
 
   mainContainer: {
-    display: 'flex',
     alignItems: 'center',
     paddingHorizontal: 20,
+    marginTop: 30,
     borderColor: Colors.INDIGO5,
     borderRadius: 16,
     borderWidth: 2

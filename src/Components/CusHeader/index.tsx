@@ -27,7 +27,9 @@ const CusHeader: FC<CusHeaderProps> = ({ style, children }) => {
 
 const styles = StyleSheet.create({
   heading: {
-    paddingBottom: 60,
+    top: 0,
+    paddingBottom: 30,
+    textAlign: 'center',
     paddingTop: 90,
     verticalAlign: 'middle',
   }

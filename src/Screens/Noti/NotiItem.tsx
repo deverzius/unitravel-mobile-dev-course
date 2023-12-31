@@ -16,8 +16,7 @@ export const formatDate = (date: string) => {
 }
 
 export const NotiItem = (props: INotiProps) => {
-	const { navigation, data } = props;	
-
+	const { navigation, data } = props;
 	return (
 		<TouchableHighlight
 			onPress={() => {
