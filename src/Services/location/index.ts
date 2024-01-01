@@ -1,6 +1,11 @@
 import { API } from '../base';
 import { Location } from '../interfaces';
 
+interface expectedResult {
+  data: Location[],
+  error: any
+}
+
 const getLocationApi = API.injectEndpoints({
   endpoints: (build) => ({
     getLocation: build.mutation<any, any>({
