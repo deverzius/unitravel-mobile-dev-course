@@ -47,8 +47,15 @@ export const Login = (props: ILoginProps) => {
       username,
       password,
     };
-    await signin(userData).then(async res => {
-      await AsyncStorage.setItem('token', res.data.data.session.access_token)
+    await signin(userData).then(async (res) => {
+      if (res?.error) {
+        Toast.error('Tài khoản hoặc mật khẩu không hợp lệ!');
+        return;
+      }
+      await AsyncStorage.setItem(
+        'token',
+        res?.data?.data?.session?.access_token
+      );
     });
 
     setCheckLogin(!checkLogin);
@@ -60,9 +67,10 @@ export const Login = (props: ILoginProps) => {
     };
     await getUser(userData);
     setCheckUserData(!checkUserData);
-    
-    await AsyncStorage.setItem('user', JSON.stringify(userData));
-    navigation.navigate(RootScreens.MAIN);
+    if (getUserData) {
+      await AsyncStorage.setItem('user', JSON.stringify(getUserData?.data));
+      navigation.navigate(RootScreens.MAIN);
+    }
   };
 
   useEffect(() => {
