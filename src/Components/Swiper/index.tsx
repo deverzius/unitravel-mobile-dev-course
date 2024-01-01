@@ -1,34 +1,48 @@
-import Swiper from 'react-native-swiper';
-import { Text, View, StyleSheet, Image, TouchableHighlight, ScrollView } from 'react-native';
-import { useLazyGetLocationsQuery, useLazyGetFavoriteLocationsQuery, useLazyGetRecentlyLocationsQuery, useLazyGetRecommendedLocationsQuery } from '@/Services';
-import React, { useState, useEffect } from 'react';
+import { RootScreens } from '@/Screens';
+import { useLazyGetFavoriteLocationsQuery, useLazyGetLocationsQuery, useLazyGetRecentlyLocationsQuery, useLazyGetRecommendedLocationsQuery } from '@/Services';
 import { Location } from '@/Services/interfaces';
 import { Colors } from '@/Theme/Variables';
-import { RootScreens } from '@/Screens';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import React, { useEffect, useState } from 'react';
+import { Image, ScrollView, StyleSheet, Text, TouchableHighlight, View } from 'react-native';
+import Swiper from 'react-native-swiper';
+import { Loader } from '../Loader';
 
 export function SwiperComponent(props: any) {
   const { navigation } = props
+  const [token, setToken] = useState<String>('');
+  const [isLoading, setIsLoading] = useState(true);
   const [viewData, setViewData] = useState<Location[]>([]);
-  const [getLocations, {}] = useLazyGetLocationsQuery();
-  const [getFavoriteLocations, {}] = useLazyGetFavoriteLocationsQuery();
-  const [getRecentlyLocations, {}] = useLazyGetRecentlyLocationsQuery();
-  const [getRecommendedLocations, {}] = useLazyGetRecommendedLocationsQuery();
+  const [getLocations, {isLoading: getLocationIsLoading}] = useLazyGetLocationsQuery();
+  const [getFavoriteLocations, {isLoading: getFavoriteLocationsIsLoading}] = useLazyGetFavoriteLocationsQuery();
+  const [getRecentlyLocations, {isLoading: getRecentlyLocationsIsLoading}] = useLazyGetRecentlyLocationsQuery();
+  const [getRecommendedLocations, {isLoading: getRecommendedLocationsIsLoading}] = useLazyGetRecommendedLocationsQuery();
 
   useEffect(() => {
     const fetchData = async () => {
-      const result1 = await getLocations()
-      const result2 = await getFavoriteLocations()
-      const result3 = await getRecentlyLocations()
-      const result4 = await getRecommendedLocations()
+      Promise.resolve(AsyncStorage.getItem('token'))
+      .then(result => {
+        if (result) setToken(result)
+        else setToken('eyJhbGciOiJIUzI1NiIsImtpZCI6IjVuRURsaDJ3aHJ1dVhRemQiLCJ0eXAiOiJKV1QifQ.eyJhdWQiOiJhdXRoZW50aWNhdGVkIiwiZXhwIjoxNzA0MTExOTYxLCJpYXQiOjE3MDQxMDgzNjEsImlzcyI6Imh0dHBzOi8vZ29idWlnZGF3aHZhbHl2eXhoeGYuc3VwYWJhc2UuY28vYXV0aC92MSIsInN1YiI6IjIxMTMxNjc0LTllNTktNGE3OC1hNGMyLThjZTc3Y2EwY2QxNyIsImVtYWlsIjoiZGVsdG9yYTFzdEBnbWFpbC5jb20iLCJwaG9uZSI6IiIsImFwcF9tZXRhZGF0YSI6eyJwcm92aWRlciI6ImVtYWlsIiwicHJvdmlkZXJzIjpbImVtYWlsIl19LCJ1c2VyX21ldGFkYXRhIjp7fSwicm9sZSI6ImF1dGhlbnRpY2F0ZWQiLCJhYWwiOiJhYWwxIiwiYW1yIjpbeyJtZXRob2QiOiJwYXNzd29yZCIsInRpbWVzdGFtcCI6MTcwNDEwODM2MX1dLCJzZXNzaW9uX2lkIjoiZTQ0MGE5ODMtYTBiNi00NzcxLWI3ZDEtN2Q2N2U4NjZhOWZhIn0.lRwDMvOz3nDRDGqk6IakIwgPVWyPZHltTayY6ygDl74')
+      })
+
+      const result1 = await getLocations( { token } )
+      const result2 = await getFavoriteLocations( { token } )
+      const result3 = await getRecentlyLocations( { token } )
+      const result4 = await getRecommendedLocations( { token } )
 
       if(props.route.name == "Tất cả") {
         if(result1.data?.data != undefined) setViewData(result1.data?.data)
+        setIsLoading(getLocationIsLoading)
       } else if(props.route.name == "Nổi bật") {
         if(result2.data?.data != undefined) setViewData(result2.data?.data)
+        setIsLoading(getFavoriteLocationsIsLoading)
       } else if(props.route.name == "Gần đây") {
         if(result3.data?.data != undefined) setViewData(result3.data?.data)
+        setIsLoading(getRecentlyLocationsIsLoading)
       } else if(props.route.name == "Đề xuất") {
         if(result4.data?.data != undefined) setViewData(result4.data?.data)
+        setIsLoading(getRecommendedLocationsIsLoading)
       }
     }
     fetchData()
@@ -76,6 +90,7 @@ export function SwiperComponent(props: any) {
 
   return (
     <View style={styles.container}>
+      <Loader />
       <ScrollView>
       <View style={styles.wrapper}>
         <Swiper  loop={true} showsButtons={true} autoplay={true} dot={<View style={{}}/>} activeDot={<View style={{}}/>} >
