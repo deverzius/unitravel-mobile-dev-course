@@ -62,9 +62,6 @@ export const Noti = (props: INotiProps) => {
               }
             />
           </SafeAreaView>
-          {/* {notis.map((item: any, index: any) => (
-            <NotiItem navigation={navigation} data={item} key={index} />
-          ))} */}
         </>
       }
     </View>

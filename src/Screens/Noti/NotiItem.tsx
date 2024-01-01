@@ -76,12 +76,12 @@ const styles = StyleSheet.create({
 		fontFamily: 'montBold',
 		fontSize: FontSize.SMALL,
 		lineHeight: FontSize.REGULAR,
-		textAlign: 'justify',
+		// textAlign: 'justify',
 		flexWrap: 'wrap'
 	},
 	message: {
 		fontSize: FontSize.TINY,
-		textAlign: 'justify',
+		// textAlign: 'justify',
 		paddingVertical: 8,
 	},
 	time: {

@@ -33,7 +33,14 @@
     "web": {
       "favicon": "./assets/icon/favicon.png"
     },
-    "plugins": [],
+    "plugins": [
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "Allow $(PRODUCT_NAME) to use your location."
+        }
+      ]
+    ],
     "runtimeVersion": {
       "policy": "sdkVersion"
     }
