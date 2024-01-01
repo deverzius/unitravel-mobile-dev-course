@@ -3,23 +3,43 @@ const { retrieveUser } = require('../utils');
 
 async function getNotifications(req, res) {
   const userDat = await retrieveUser(req);
-  if (!userDat)
-  {
+  if (!userDat) {
     return res.status(401).json({
       data: [],
-      error: 'Unauthorized'
+      error: 'Unauthorized',
     });
   }
-  const user_id = userDat.id;
+
+  let isEmail = true;
+  let username = userDat.email;
+
+  if (userDat.phone) {
+    isEmail = false;
+    username = '+' + userDat.phone;
+  }
+
+  let { data: userData, error: userError } = await supabaseInstance
+    .from('users')
+    .select('id')
+    .eq(isEmail ? 'email' : 'phone', username);
+
+  if (userError) {
+    return res.status(500).json({
+      error: 'An error occurred',
+      details: userError.details,
+      hint: userError.hint,
+      message: userError.message,
+    });
+  }
+
+  const user_id = userData[0].id;
 
   let { data, error } = await supabaseInstance
     .from('notifications')
     .select('*')
-    .or(`user_id.eq.${user_id},user_id.is.null`)
+    .or(`user_id.eq.${user_id},user_id.is.null`);
 
-
-  if (error)
-  {
+  if (error) {
     return res.status(500).json({
       error: 'An error occurred',
       details: error.details,
@@ -28,18 +48,20 @@ async function getNotifications(req, res) {
     });
   }
 
-  data = await Promise.all(data.map(async (noti) => {
-    const location = await supabaseInstance
-      .from('locations')
-      .select('*')
-      .limit(1)
-      .eq('id', noti.sender_id)
+  data = await Promise.all(
+    data.map(async (noti) => {
+      const location = await supabaseInstance
+        .from('locations')
+        .select('*')
+        .limit(1)
+        .eq('id', noti.sender_id);
 
-    // console.log(location.data[0]);
-    noti.location_name = await location.data[0].name;
-    noti.image_url = await location.data[0].imageUrl;
-    return noti;
-  }))
+      // console.log(location.data[0]);
+      noti.location_name = await location.data[0].name;
+      noti.image_url = await location.data[0].imageUrl;
+      return noti;
+    })
+  );
 
   return res.json({ data, error });
 }
