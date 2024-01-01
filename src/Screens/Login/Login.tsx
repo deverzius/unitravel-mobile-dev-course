@@ -39,8 +39,15 @@ export const Login = (props: ILoginProps) => {
       error: signinError,
     },
   ] = useLoginMutation();
-  const [getUser, { data: getUserData, isSuccess: getUserSuccess }] =
-    useGetUserMutation();
+  const [
+    getUser,
+    {
+      data: getUserData,
+      isSuccess: getUserSuccess,
+      isLoading: getUserLoading,
+      error: getUserError,
+    },
+  ] = useGetUserMutation();
 
   const handleSubmit = async (e: any) => {
     const userData = {
@@ -67,6 +74,9 @@ export const Login = (props: ILoginProps) => {
     };
     await getUser(userData);
     setCheckUserData(!checkUserData);
+  };
+
+  const handleNavigate = async () => {
     if (getUserData) {
       await AsyncStorage.setItem('user', JSON.stringify(getUserData?.data));
       navigation.navigate(RootScreens.MAIN);
@@ -92,6 +102,10 @@ export const Login = (props: ILoginProps) => {
       Toast.error('Lỗi tải dữ liệu!');
     }
   }, [checkUserData]);
+
+  useEffect(() => {
+    handleNavigate();
+  }, [getUserData]);
 
   return (
     <View style={styles.container}>
