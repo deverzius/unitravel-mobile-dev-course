@@ -8,6 +8,7 @@ import { NotiItem } from './NotiItem';
 import CusHeader from '@/Components/CusHeader';
 import { useGetNotisMutation } from '@/Services';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { handleExpiredToken } from '@/Utils';
 
 export interface INotiProps {
   navigation: any;
@@ -31,8 +32,12 @@ export const Noti = (props: INotiProps) => {
   useEffect(() => {
     Promise.resolve(AsyncStorage.getItem('token'))
       .then(token => getNotis({ token }))
-    // .then((notis: any) => setNotis(notis?.data?.data))
-    // .catch(err => console.log('NotiError: ', err))
+      .then((res: any) => {
+        if (res.error) {
+          handleExpiredToken(navigation, false)
+        }
+      })
+      .catch(err => handleExpiredToken(navigation, false))
   }, [])
 
   const onRefresh = React.useCallback(async () => {

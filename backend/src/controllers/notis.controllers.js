@@ -41,7 +41,7 @@ async function getNotifications(req, res) {
     })
   );
 
-  return res.json({ data, error });
+  return res.status(200).json({ data, error });
 }
 
 module.exports = {

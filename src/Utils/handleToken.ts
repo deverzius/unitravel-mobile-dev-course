@@ -3,8 +3,11 @@ import { RootStacks } from '@/Screens';
 import Toast from '@/Components/Toast';
 
 export const handleExpiredToken = async (navigation: any, isLogout: boolean) => {
-  await AsyncStorage.removeItem('user');
-  await AsyncStorage.removeItem('token');
+  try {
+    await AsyncStorage.removeItem('user');
+    await AsyncStorage.removeItem('token');
+  }
+  catch (e) { }
   if (isLogout) {
     Toast.success('Đăng xuất thành công');
   } else {

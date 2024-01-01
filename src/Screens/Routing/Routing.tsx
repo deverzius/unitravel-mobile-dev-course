@@ -12,6 +12,7 @@ import { BasicInput } from '@/Components/Input';
 import { Colors, FontSize } from '@/Theme/Variables';
 import CusHeader from '@/Components/CusHeader';
 import CusText from '@/Components/CusText';
+import Toast from '@/Components/Toast';
 
 
 export interface IRoutingProps {
@@ -25,17 +26,29 @@ export const Routing = (props: IRoutingProps) => {
   const [region, setRegion] = React.useState<any>(false);
   const [departure, setDeparture] = React.useState<any>("");
   const [destination, setDestination] = React.useState<any>("");
+  const [showPath, setShowPath] = React.useState<any>(false);
+
 
   const getLocation = async () => {
     let { status } = await Location.requestForegroundPermissionsAsync();
     if (status !== 'granted') {
+      setShowPath(false);
+      Toast.error(i18n.t(LocalizationKey.PERMISSION_DENIED));
       return false;
     }
-    Location.getCurrentPositionAsync({})
-      .then((curLocation: any) => {
-        console.log('Current Location: ', curLocation);
-        setLocation(curLocation);
-      })
+
+    if (destination.toLowerCase() === "bách khoa") { 
+      setShowPath(true);
+    }
+    else {
+      setShowPath(false);
+      Toast.error(i18n.t(LocalizationKey.CANNOT_FOUND));
+    }
+    // Location.getCurrentPositionAsync({})
+    //   .then((curLocation: any) => {
+    //     console.log('Current Location: ', curLocation);
+    //     setLocation(curLocation);
+    //   })
   };
 
   const initialRegion = {
@@ -57,6 +70,17 @@ export const Routing = (props: IRoutingProps) => {
     setDestination(text);
   }
 
+  const coords = [
+    [10.876708521432205, 106.80978187060946],
+    [10.8765491629195, 106.80998035405479],
+    [10.879268018836546, 106.81217934440156],
+    [10.88041718615343, 106.81047609747682],
+    [10.881337334700472, 106.81107577365157],
+    [10.884461729068223, 106.80627419966689],
+    [10.882110921257212, 106.80472565149853],
+    [10.881751624034854, 106.80529003514361]
+  ]
+
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
@@ -66,40 +90,25 @@ export const Routing = (props: IRoutingProps) => {
           initialRegion={initialRegion}
           onRegionChange={onRegionChange}
         >
-          {
-            location &&
-            <Marker coordinate={{
-              latitude: location?.coords?.latitude,
-              longitude: location?.coords?.longitude
-            }}
-            />
-          }
-          <Polyline
-            coordinates={[
-              {
-                latitude: 10.8768353,
-                longitude: 106.8093998
-              },
-            ]}
-            strokeColor="#000" // fallback for when `strokeColors` is not supported by the map-provider
-            strokeColors={[
-              '#7F0000',
-              '#00000000', // no color, creates a "long" gradient between the previous and next coordinate
-              '#B24112',
-              '#E5845C',
-              '#238C23',
-              '#7F0000',
-            ]}
-            strokeWidth={6}
-          />
+          {showPath && <Polyline
+            coordinates={
+              coords.map(item => {
+                return {
+                  latitude: item[0],
+                  longitude: item[1]
+                }
+              })}
+            strokeColor={Colors.INDIGO6}
+            strokeWidth={5}
+          />}
         </MapView>
         <View style={styles.control}>
           <CusText style={styles.heading}>Tìm Đường Đi</CusText>
 
           <BasicInput
             placeholder="Nhập điểm đi"
-            onChangeText={handleSetDeparture}
-            value={departure}
+            // onChangeText={handleSetDeparture}
+            value={"Vị trí hiện tại"}
           />
           <BasicInput
             placeholder="Nhập điểm đến"

@@ -9,4 +9,6 @@ export const en = {
   [LocalizationKey.LOCATION_GRANT_REQUEST]: "Can we access your location?",
   [LocalizationKey.CANCEL]: "Cancel",
   [LocalizationKey.ASK_ME_LATER]: "Ask me later",
+  [LocalizationKey.PERMISSION_DENIED]: "Permission to access location was denied",
+  [LocalizationKey.CANNOT_FOUND]: "Cannot found any suitable place!!",
 };

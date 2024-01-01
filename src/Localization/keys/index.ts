@@ -9,4 +9,6 @@ export enum LocalizationKey {
   LOCATION_GRANT_REQUEST = "noti_grant_request",
   CANCEL = "cancel",
   ASK_ME_LATER = "ask_me_later",
+  PERMISSION_DENIED = "permission_denied",
+  CANNOT_FOUND = "cannot_found",
 }
