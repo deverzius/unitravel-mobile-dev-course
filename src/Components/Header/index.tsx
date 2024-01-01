@@ -11,7 +11,7 @@ export const Header = (props: any) => {
       </View>
       <View style={ styles.space }></View>
       <TouchableHighlight style={ styles.searchIcon }
-        onPress={() => navigation.navigate(RootStacks.MAIN)}>
+        onPress={() => navigation.navigate(RootStacks.DETAIL, {id: "7bcb765a-8cfb-4a4a-9db5-293aa2cdb98d"})}>
         <Image style={{height: 36, width: 36,}} source={require('@/../assets/icon/magnifier.png')} />
       </TouchableHighlight>
     </View>
