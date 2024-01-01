@@ -8,6 +8,7 @@ import { LoginContainer } from '@/Screens/Login';
 import { SignupContainer } from '@/Screens/Signup';
 import { RootScreens, RootStacks } from '@/Screens';
 import { SingleNotiContainer } from '@/Screens/Noti/SingleNotiContainer';
+import { DetailContainer } from '@/Screens/Detail';
 
 export type RootStackParamList = {
     [RootStacks.MAIN]: undefined;
@@ -15,6 +16,7 @@ export type RootStackParamList = {
     [RootStacks.AUTH]: undefined;
     [RootStacks.SPLASH]: undefined;
     [RootStacks.SCAN]: undefined;
+    [RootScreens.DETAIL]: any;
   };
 
 export const RootStack = createNativeStackNavigator<RootStackParamList>();
@@ -60,6 +62,14 @@ export function NotiStack() {
   return (
     <RootStack.Navigator screenOptions={{ headerShown: false }}>
       <RootStack.Screen name={RootScreens.SINGLENOTI} component={SingleNotiContainer} />
+    </RootStack.Navigator>
+  );
+}
+
+export function DetailStack() {
+  return (
+    <RootStack.Navigator screenOptions={{ headerShown: false }}>
+      <RootStack.Screen name={RootScreens.DETAIL} component={DetailContainer}/>
     </RootStack.Navigator>
   );
 }

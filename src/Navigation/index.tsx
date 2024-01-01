@@ -3,8 +3,9 @@ import { StatusBar } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { SplashContainer } from '@/Screens/Splash';
 import { MainNavigator } from './Main';
-import { RootStacks } from '@/Screens';
+import { RootStacks, RootScreens } from '@/Screens';
 import { RootStack, WelcomeStack, AuthStack, ScanStack, NotiStack } from './stacks';
+import { DetailContainer } from '@/Screens/Detail';
 
 // @refresh reset
 const ApplicationNavigator = () => {
@@ -28,6 +29,7 @@ const ApplicationNavigator = () => {
           component={MainNavigator}
           options={{}}
         />
+        <RootStack.Screen name={RootScreens.DETAIL} component={DetailContainer}/>
       </RootStack.Navigator>
     </NavigationContainer>
   );
