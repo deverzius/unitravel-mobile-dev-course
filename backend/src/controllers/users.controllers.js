@@ -26,7 +26,6 @@ async function getUser(req, res) {
     });
   }
 
-  console.log(1);
   return res.json({ data, error });
 }
 
