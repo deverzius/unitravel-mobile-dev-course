@@ -4,6 +4,6 @@ const { authenticate, register, signout } = require('../controllers/auth.control
 const router = Router();
 router.post('/', authenticate);
 router.post('/register', register);
-router.post('/signout', signout);
+router.get('/signout', signout);
 
 module.exports = router;

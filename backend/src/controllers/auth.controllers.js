@@ -1,4 +1,5 @@
 const { supabaseInstance } = require('../supabase');
+const { retrieveUser } = require('../utils');
 
 async function authenticate(req, res) {
   const username = req.body.username;
@@ -55,6 +56,14 @@ async function register(req, res) {
 }
 
 async function signout(req, res) {
+  const userDat = await retrieveUser(req);
+  if (!userDat) {
+    return res.status(401).json({
+      data: [],
+      error: 'Unauthorized',
+    });
+  }
+  
   const { error } = await supabaseInstance.auth.signOut();
 
   if (error) {

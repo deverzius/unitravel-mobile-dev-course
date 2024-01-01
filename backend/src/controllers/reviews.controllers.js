@@ -1,6 +1,15 @@
 const { supabaseInstance } = require('../supabase');
+const { retrieveUser } = require('../utils');
 
 async function getReviews(req, res) {
+  const userDat = await retrieveUser(req);
+  if (!userDat) {
+    return res.status(401).json({
+      data: [],
+      error: 'Unauthorized',
+    });
+  }
+
   const location_id = req.body.location_id;
   const { data, error } = await supabaseInstance
     .from('reviews')
@@ -20,6 +29,14 @@ async function getReviews(req, res) {
 }
 
 async function addReview(req, res) {
+  const userDat = await retrieveUser(req);
+  if (!userDat) {
+    return res.status(401).json({
+      data: [],
+      error: 'Unauthorized',
+    });
+  }
+
   const reviewData = {
     location_id: req.body.location_id,
     user_id: req.body.user_id,

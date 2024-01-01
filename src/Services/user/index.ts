@@ -3,11 +3,13 @@ import { User } from '../interfaces';
 
 const getUserApi = API.injectEndpoints({
   endpoints: (build) => ({
-    getUser: build.mutation<User, Partial<User>>({
-      query: (userData) => ({
+    getUser: build.mutation<any, any>({
+      query: ({ token }) => ({
         url: 'users',
-        method: 'POST',
-        body: userData,
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       }),
     }),
   }),
@@ -16,11 +18,14 @@ const getUserApi = API.injectEndpoints({
 
 const createUserApi = API.injectEndpoints({
   endpoints: (build) => ({
-    createUser: build.mutation<User, Partial<User>>({
-      query: (userData) => ({
+    createUser: build.mutation<any, any>({
+      query: (data) => ({
         url: 'users/add-user',
         method: 'POST',
-        body: userData,
+        body: data?.userData,
+        headers: {
+          Authorization: `Bearer ${data?.token}`,
+        },
       }),
     }),
   }),

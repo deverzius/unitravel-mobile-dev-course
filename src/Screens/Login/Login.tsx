@@ -69,10 +69,8 @@ export const Login = (props: ILoginProps) => {
   };
 
   const handleSuccess = async () => {
-    const userData = {
-      username,
-    };
-    await getUser(userData);
+    const token = await AsyncStorage.getItem('token');
+    await getUser({ token });
     setCheckUserData(!checkUserData);
   };
 

@@ -1,6 +1,15 @@
 const { supabaseInstance } = require('../supabase');
+const { retrieveUser } = require('../utils');
 
 async function getRoute(req, res) {
+  const userDat = await retrieveUser(req);
+  if (!userDat) {
+    return res.status(401).json({
+      data: [],
+      error: 'Unauthorized',
+    });
+  }
+  
   const end_id = req.body.end_id;
   const start_id = req.body.start_id;
   const { data, error } = await supabaseInstance

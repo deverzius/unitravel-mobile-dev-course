@@ -3,11 +3,14 @@ import { Routing } from '../interfaces';
 
 const routingApi = API.injectEndpoints({
   endpoints: (build) => ({
-    getRoute: build.mutation<Routing, Partial<Routing>>({
-      query: (userData) => ({
+    getRoute: build.mutation<any, any>({
+      query: (data) => ({
         url: 'routing',
         method: 'POST',
-        body: userData,
+        body: data?.userData,
+        headers: {
+          Authorization: `Bearer ${data?.token}`,
+        },
       }),
     }),
   }),

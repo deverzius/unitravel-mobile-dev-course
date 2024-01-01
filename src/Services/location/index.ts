@@ -3,11 +3,14 @@ import { Location } from '../interfaces';
 
 const getLocationApi = API.injectEndpoints({
   endpoints: (build) => ({
-    getLocation: build.mutation<Location, Partial<Location>>({
-      query: (userData) => ({
+    getLocation: build.mutation<any, any>({
+      query: (data) => ({
         url: 'locations',
         method: 'POST',
-        body: userData,
+        body: data?.userData,
+        headers: {
+          Authorization: `Bearer ${data?.token}`,
+        },
       }),
     }),
   }),
@@ -16,8 +19,14 @@ const getLocationApi = API.injectEndpoints({
 
 const getLocationsApi = API.injectEndpoints({
   endpoints: (build) => ({
-    getLocations: build.query<Location, void>({
-      query: () => 'locations',
+    getLocations: build.query<any, any>({
+      query: ({ token }) => ({
+        url: 'locations',
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }),
     }),
   }),
   overrideExisting: true,
@@ -25,8 +34,14 @@ const getLocationsApi = API.injectEndpoints({
 
 const getFavoriteLocationsApi = API.injectEndpoints({
   endpoints: (build) => ({
-    getFavoriteLocations: build.query<Location, void>({
-      query: () => 'locations/is-favorite',
+    getFavoriteLocations: build.query<any, any>({
+      query: ({ token }) => ({
+        url: 'locations/is-favorite',
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }),
     }),
   }),
   overrideExisting: true,
@@ -34,8 +49,14 @@ const getFavoriteLocationsApi = API.injectEndpoints({
 
 const getRecentlyLocationsApi = API.injectEndpoints({
   endpoints: (build) => ({
-    getRecentlyLocations: build.query<Location, void>({
-      query: () => 'locations/is-recently',
+    getRecentlyLocations: build.query<any, any>({
+      query: ({ token }) => ({
+        url: 'locations/is-recently',
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }),
     }),
   }),
   overrideExisting: true,
@@ -43,8 +64,14 @@ const getRecentlyLocationsApi = API.injectEndpoints({
 
 const getRecommendedLocationsApi = API.injectEndpoints({
   endpoints: (build) => ({
-    getRecommendedLocations: build.query<Location, void>({
-      query: () => 'locations/is-recommended',
+    getRecommendedLocations: build.query<any, any>({
+      query: ({ token }) => ({
+        url: 'locations/is-recommended',
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }),
     }),
   }),
   overrideExisting: true,
