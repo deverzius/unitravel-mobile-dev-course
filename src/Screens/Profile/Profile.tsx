@@ -47,7 +47,7 @@ export const Profile = (props: IProfileProps) => {
     };
     await getImage(imgData).then(async (res) => {
       if (res?.error) {
-        Toast.error('Lỗi tải ảnh đại diện!');
+        // Toast.error('Lỗi tải ảnh đại diện!');
         return;
       }
       setimgUrl(res?.data?.data[0]?.url);
@@ -85,7 +85,7 @@ export const Profile = (props: IProfileProps) => {
       <View style={{ ...styles.infoCtn }}>
         <Text style={{ ...styles.info }}>
           {' '}
-          Số điện thoại: {userData?.phone}{' '}
+          Số điện thoại: {userData?.phone.slice(3)}{' '}
         </Text>
         <Text style={{ ...styles.info }}> Email: {userData?.email} </Text>
         <Text style={{ ...styles.info }}>
@@ -134,7 +134,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: 'rgba(0, 0, 0, 0.2)',
     backgroundColor: Colors.WHITE,
-    zIndex: 999,
+    zIndex: 990,
     justifyContent: 'center',
     alignItems: 'center',
     overflow: 'hidden',
