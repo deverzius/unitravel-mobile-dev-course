@@ -1,7 +1,16 @@
 const { supabaseInstance } = require('../supabase');
+const { retrieveUser } = require('../utils');
 
 async function getImage(req, res) {
-  const id = req.body.id;
+  const userDat = await retrieveUser(req);
+  if (!userDat) {
+    return res.status(401).json({
+      data: [],
+      error: 'Unauthorized',
+    });
+  }
+  
+  const id = req.body.image_id;
   const { data, error } = await supabaseInstance
     .from('images')
     .select('*')

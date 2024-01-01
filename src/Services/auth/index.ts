@@ -29,10 +29,13 @@ const signupApi = API.injectEndpoints({
 
 const logoutApi = API.injectEndpoints({
   endpoints: (build) => ({
-    logout: build.mutation<User, void>({
-      query: () => ({
+    logout: build.mutation<any, any>({
+      query: ({ token }) => ({
         url: 'auth/signout',
-        method: 'POST',
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       }),
     }),
   }),

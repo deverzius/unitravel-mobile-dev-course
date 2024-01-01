@@ -3,11 +3,14 @@ import { Review } from '../interfaces';
 
 const getReiviewsApi = API.injectEndpoints({
   endpoints: (build) => ({
-    getReviews: build.mutation<Review, Partial<Review>>({
-      query: (userData) => ({
+    getReviews: build.mutation<any, any>({
+      query: (data) => ({
         url: 'reviews',
         method: 'POST',
-        body: userData,
+        body: data?.userData,
+        headers: {
+          Authorization: `Bearer ${data?.token}`,
+        },
       }),
     }),
   }),
@@ -16,11 +19,14 @@ const getReiviewsApi = API.injectEndpoints({
 
 const addReiviewApi = API.injectEndpoints({
     endpoints: (build) => ({
-      addReview: build.mutation<Review, Partial<Review>>({
-        query: (userData) => ({
+      addReview: build.mutation<any, any>({
+        query: (data) => ({
           url: 'reviews/add-review',
           method: 'POST',
-          body: userData,
+          body: data?.userData,
+          headers: {
+            Authorization: `Bearer ${data?.token}`,
+          },
         }),
       }),
     }),

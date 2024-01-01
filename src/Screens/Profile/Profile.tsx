@@ -9,8 +9,8 @@ import { Colors } from '@/Theme/Variables';
 import { useLogoutMutation, useGetImageMutation } from '@/Services';
 import { RootStacks } from '..';
 import { textStyle } from '@/Theme/Variables';
-import Toast from '@/Components/Toast';
 import CusText from '@/Components/CusText';
+import {handleExpiredToken} from '@/Utils';
 
 export interface IProfileProps {
   navigation: any;
@@ -26,14 +26,9 @@ export const Profile = (props: IProfileProps) => {
     useGetImageMutation();
 
   const handleSubmit = async (e: any) => {
-    await logout();
+    const token = await AsyncStorage.getItem('token');
+    await logout({ token });
     setCheckLogout(!checkLogout);
-  };
-
-  const handleLogout = async () => {
-    await AsyncStorage.removeItem('user');
-    await AsyncStorage.removeItem('token');
-    navigation.navigate(RootStacks.AUTH);
   };
 
   const getUserData = async () => {
@@ -42,9 +37,12 @@ export const Profile = (props: IProfileProps) => {
   };
 
   const handleGetImage = async () => {
+    const token = await AsyncStorage.getItem('token');
     const imgData = {
-      id: userData?.image,
+      image_id: { image_id: userData?.image },
+      token,
     };
+    
     await getImage(imgData).then(async (res) => {
       if (res?.error) {
         // Toast.error('Lỗi tải ảnh đại diện!');
@@ -56,7 +54,7 @@ export const Profile = (props: IProfileProps) => {
 
   useEffect(() => {
     if (isSuccess) {
-      handleLogout();
+      handleExpiredToken(navigation, true);
     }
   }, [checkLogout]);
 

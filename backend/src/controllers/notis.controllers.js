@@ -10,30 +10,8 @@ async function getNotifications(req, res) {
     });
   }
 
-  let isEmail = true;
-  let username = userDat.email;
-
-  if (userDat.phone) {
-    isEmail = false;
-    username = '+' + userDat.phone;
-  }
-
-  let { data: userData, error: userError } = await supabaseInstance
-    .from('users')
-    .select('id')
-    .eq(isEmail ? 'email' : 'phone', username);
-
-  if (userError) {
-    return res.status(500).json({
-      error: 'An error occurred',
-      details: userError.details,
-      hint: userError.hint,
-      message: userError.message,
-    });
-  }
-
-  const user_id = userData[0].id;
-
+  const user_id = userDat?.id;
+  
   let { data, error } = await supabaseInstance
     .from('notifications')
     .select('*')

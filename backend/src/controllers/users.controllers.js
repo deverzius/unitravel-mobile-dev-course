@@ -1,21 +1,21 @@
 const { supabaseInstance } = require('../supabase');
+const { retrieveUser } = require('../utils');
 
 async function getUser(req, res) {
-  const username = req.body.username;
-  let isEmail = false;
-  let userData = '';
-
-  if (username.includes('@')) {
-    userData = username;
-    isEmail = true;
-  } else {
-    userData = '+84' + username;
+  const userDat = await retrieveUser(req);
+  if (!userDat) {
+    return res.status(401).json({
+      data: [],
+      error: 'Unauthorized',
+    });
   }
+
+  const user_id = userDat?.id;
 
   const { data, error } = await supabaseInstance
     .from('users')
     .select('id, name, email, phone, citizen, image')
-    .eq(isEmail ? 'email' : 'phone', userData);
+    .eq('auth_id', user_id);
 
   if (error) {
     return res.status(500).json({
@@ -30,9 +30,18 @@ async function getUser(req, res) {
 }
 
 async function createUser(req, res) {
+  const userDat = await retrieveUser(req);
+  if (!userDat) {
+    return res.status(401).json({
+      data: [],
+      error: 'Unauthorized',
+    });
+  }
+
   const username = req.body.username;
   const loginData = {
     password: req.body.password,
+    auth_id: userDat.id,
   };
 
   if (username.includes('@')) {

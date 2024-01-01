@@ -1,6 +1,15 @@
 const { supabaseInstance } = require('../supabase');
+const { retrieveUser } = require('../utils');
 
 async function getLocations(req, res) {
+  const userDat = await retrieveUser(req);
+  if (!userDat) {
+    return res.status(401).json({
+      data: [],
+      error: 'Unauthorized',
+    });
+  }
+
   const { data, error } = await supabaseInstance.from('locations').select('*');
 
   if (error) {
@@ -16,6 +25,14 @@ async function getLocations(req, res) {
 }
 
 async function getFavorite(req, res) {
+  const userDat = await retrieveUser(req);
+  if (!userDat) {
+    return res.status(401).json({
+      data: [],
+      error: 'Unauthorized',
+    });
+  }
+
   const { data, error } = await supabaseInstance
     .from('locations')
     .select('*')
@@ -34,6 +51,14 @@ async function getFavorite(req, res) {
 }
 
 async function getRecently(req, res) {
+  const userDat = await retrieveUser(req);
+  if (!userDat) {
+    return res.status(401).json({
+      data: [],
+      error: 'Unauthorized',
+    });
+  }
+
   const { data, error } = await supabaseInstance
     .from('locations')
     .select('*')
@@ -52,6 +77,14 @@ async function getRecently(req, res) {
 }
 
 async function getRecommended(req, res) {
+  const userDat = await retrieveUser(req);
+  if (!userDat) {
+    return res.status(401).json({
+      data: [],
+      error: 'Unauthorized',
+    });
+  }
+
   const { data, error } = await supabaseInstance
     .from('locations')
     .select('*')
@@ -70,6 +103,14 @@ async function getRecommended(req, res) {
 }
 
 async function getLocation(req, res) {
+  const userDat = await retrieveUser(req);
+  if (!userDat) {
+    return res.status(401).json({
+      data: [],
+      error: 'Unauthorized',
+    });
+  }
+
   const id = req.body.id;
   const { data, error } = await supabaseInstance
     .from('locations')

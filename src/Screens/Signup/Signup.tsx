@@ -59,11 +59,14 @@ export const Signup = (props: ISignupProps) => {
   };
 
   const handleSuccess = async () => {
-    const userData = {
-      username,
-      password,
+    const data = {
+      token: signupData?.data?.session?.access_token,
+      userData: {
+        username,
+        password,
+      }
     };
-    await addUser(userData);
+    await addUser(data);
     setCheckUserData(!checkUserData);
   };
 
