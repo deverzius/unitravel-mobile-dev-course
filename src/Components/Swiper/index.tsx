@@ -5,7 +5,6 @@ import { Colors } from '@/Theme/Variables';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useEffect, useState } from 'react';
 import { Image, ScrollView, StyleSheet, Text, TouchableHighlight, View } from 'react-native';
-import Swiper from 'react-native-swiper';
 import { Loader } from '../Loader';
 
 export function SwiperComponent(props: any) {
@@ -24,7 +23,7 @@ export function SwiperComponent(props: any) {
       Promise.resolve(AsyncStorage.getItem('token'))
       .then(result => {
         if (result) setToken(result)
-        else setToken('eyJhbGciOiJIUzI1NiIsImtpZCI6IjVuRURsaDJ3aHJ1dVhRemQiLCJ0eXAiOiJKV1QifQ.eyJhdWQiOiJhdXRoZW50aWNhdGVkIiwiZXhwIjoxNzA0MTExOTYxLCJpYXQiOjE3MDQxMDgzNjEsImlzcyI6Imh0dHBzOi8vZ29idWlnZGF3aHZhbHl2eXhoeGYuc3VwYWJhc2UuY28vYXV0aC92MSIsInN1YiI6IjIxMTMxNjc0LTllNTktNGE3OC1hNGMyLThjZTc3Y2EwY2QxNyIsImVtYWlsIjoiZGVsdG9yYTFzdEBnbWFpbC5jb20iLCJwaG9uZSI6IiIsImFwcF9tZXRhZGF0YSI6eyJwcm92aWRlciI6ImVtYWlsIiwicHJvdmlkZXJzIjpbImVtYWlsIl19LCJ1c2VyX21ldGFkYXRhIjp7fSwicm9sZSI6ImF1dGhlbnRpY2F0ZWQiLCJhYWwiOiJhYWwxIiwiYW1yIjpbeyJtZXRob2QiOiJwYXNzd29yZCIsInRpbWVzdGFtcCI6MTcwNDEwODM2MX1dLCJzZXNzaW9uX2lkIjoiZTQ0MGE5ODMtYTBiNi00NzcxLWI3ZDEtN2Q2N2U4NjZhOWZhIn0.lRwDMvOz3nDRDGqk6IakIwgPVWyPZHltTayY6ygDl74')
+        else setToken('null')
       })
 
       if(props.route.name == "Tất cả") {
@@ -126,28 +125,28 @@ const styles = StyleSheet.create({
     paddingLeft: 15,
     paddingRight: 15,
     paddingBottom: 7,
-    height: 220,
+    height: 250,
     textAlign: 'center',
     borderBottomWidth: 2,
     borderBottomColor: '#D2D2D2',
   },
   wrapper1: {
+    width: 220,
     display: 'flex',
     flexDirection: 'column',
     flexWrap: 'wrap',
+    alignItems: 'flex-start',
     paddingTop: 7,
     paddingLeft: 15,
     paddingRight: 15,
     paddingBottom: 7,
-    height: 220,
+    height: 250,
     textAlign: 'center',
-    borderBottomWidth: 2,
-    borderBottomColor: '#D2D2D2',
   },
   imageSwiper: {
     width: 180,
     height: 120,
-    borderRadius: 5,
+    borderRadius: 8,
     alignSelf: 'center'
   },
   text2: {
@@ -184,7 +183,7 @@ const styles = StyleSheet.create({
     paddingTop: 15,
     paddingLeft: 20,
     paddingRight: 20,
-    minHeight: 400,
+    minHeight: 600,
   },
   scrollItem: {
     height: 150,
@@ -195,14 +194,16 @@ const styles = StyleSheet.create({
   imageScroll: {
     width: 120,
     height: 120,
-    borderRadius: 5,
+    borderRadius: 8,
     alignSelf: 'center'
   },
   scrollWrap: {
     display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    textAlign: 'flex-start',
     margin: 10,
     flexWrap: 'wrap',
+    width: 230,
   },
 });
