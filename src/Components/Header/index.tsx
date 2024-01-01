@@ -1,6 +1,6 @@
 import React from 'react';
 import { Text, View, StyleSheet, Image, TouchableHighlight  } from 'react-native';
-import { RootScreens } from '@/Screens/index';
+import { RootScreens, RootStacks } from '@/Screens/index';
 
 export const Header = (props: any) => {
   const { navigation } = props
@@ -11,8 +11,8 @@ export const Header = (props: any) => {
       </View>
       <View style={ styles.space }></View>
       <TouchableHighlight style={ styles.searchIcon }
-        onPress={() => navigation.push(RootScreens.MAIN)}>
-        <Image source={require('@/../assets/icon/magnifier.png')} />
+        onPress={() => navigation.navigate(RootStacks.MAIN)}>
+        <Image style={{height: 36, width: 36,}} source={require('@/../assets/icon/magnifier.png')} />
       </TouchableHighlight>
     </View>
   );
@@ -26,8 +26,8 @@ const styles = StyleSheet.create({
     alignContent: 'center',
     marginTop: 35,
     marginBottom: 10,
-    marginLeft: 20,
-    marginRight: 20,
+    marginLeft: 17,
+    marginRight: 17,
   },
   tinyLogo: {
     flexGrow: 1,

@@ -1,43 +1,59 @@
-import Swiper from 'react-native-swiper';
-import { Text, View, StyleSheet, Image, TouchableHighlight, ScrollView } from 'react-native';
-import { useLazyGetLocationsQuery, useLazyGetFavoriteLocationsQuery, useLazyGetRecentlyLocationsQuery, useLazyGetRecommendedLocationsQuery } from '@/Services';
-import React, { useState, useEffect } from 'react';
+import { RootScreens } from '@/Screens';
+import { useLazyGetFavoriteLocationsQuery, useLazyGetLocationsQuery, useLazyGetRecentlyLocationsQuery, useLazyGetRecommendedLocationsQuery } from '@/Services';
 import { Location } from '@/Services/interfaces';
 import { Colors } from '@/Theme/Variables';
-import { RootScreens } from '@/Screens';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import React, { useEffect, useState } from 'react';
+import { Image, ScrollView, StyleSheet, Text, TouchableHighlight, View } from 'react-native';
+import { Loader } from '../Loader';
 
 export function SwiperComponent(props: any) {
   const { navigation } = props
+  const [token, setToken] = useState<String>('');
+  const [isLoading, setIsLoading] = useState(true);
   const [viewData, setViewData] = useState<Location[]>([]);
-  const [getLocations, {}] = useLazyGetLocationsQuery();
-  const [getFavoriteLocations, {}] = useLazyGetFavoriteLocationsQuery();
-  const [getRecentlyLocations, {}] = useLazyGetRecentlyLocationsQuery();
-  const [getRecommendedLocations, {}] = useLazyGetRecommendedLocationsQuery();
+  const [getLocations, {isSuccess: getLocationIsLoading}] = useLazyGetLocationsQuery();
+  const [getFavoriteLocations, {isSuccess: getFavoriteLocationsIsLoading}] = useLazyGetFavoriteLocationsQuery();
+  const [getRecentlyLocations, {isSuccess: getRecentlyLocationsIsLoading}] = useLazyGetRecentlyLocationsQuery();
+  const [getRecommendedLocations, {isSuccess: getRecommendedLocationsIsLoading}] = useLazyGetRecommendedLocationsQuery();
 
   useEffect(() => {
     const fetchData = async () => {
-      const result1 = await getLocations()
-      const result2 = await getFavoriteLocations()
-      const result3 = await getRecentlyLocations()
-      const result4 = await getRecommendedLocations()
+      
+      Promise.resolve(AsyncStorage.getItem('token'))
+      .then(result => {
+        if (result) setToken(result)
+        else setToken('null')
+      })
 
       if(props.route.name == "Tất cả") {
-        if(result1.data?.data != undefined) setViewData(result1.data?.data)
+        const result = await getLocations( { token } )
+        if(result.data?.data != undefined) setViewData(result.data?.data)
+        setIsLoading(!getLocationIsLoading)
       } else if(props.route.name == "Nổi bật") {
-        if(result2.data?.data != undefined) setViewData(result2.data?.data)
+        const result = await getFavoriteLocations( { token } )
+        if(result.data?.data != undefined) setViewData(result.data?.data)
+        setIsLoading(!getFavoriteLocationsIsLoading)
       } else if(props.route.name == "Gần đây") {
-        if(result3.data?.data != undefined) setViewData(result3.data?.data)
+        const result = await getRecentlyLocations( { token } )
+        if(result.data?.data != undefined) setViewData(result.data?.data)
+        setIsLoading(!getRecentlyLocationsIsLoading)
       } else if(props.route.name == "Đề xuất") {
-        if(result4.data?.data != undefined) setViewData(result4.data?.data)
+        const result = await getRecommendedLocations( { token } )
+        if(result.data?.data != undefined) setViewData(result.data?.data)
+        setIsLoading(!getRecommendedLocationsIsLoading)
       }
     }
     fetchData()
-  }, [props.route.name])
+  }, [getLocationIsLoading, getFavoriteLocationsIsLoading, getRecentlyLocationsIsLoading, getRecommendedLocationsIsLoading])
   
   const page = viewData.map((item) => {        
     return (
-      <TouchableHighlight underlayColor={Colors.INDIGO2} key={item.id} onPress={() => navigation.push(RootScreens.MAIN)}>
-      <View style={styles.wrapper}>
+      <TouchableHighlight underlayColor={Colors.INDIGO2}
+        key={item.id}
+        onPress={() => navigation(RootScreens.MAIN, {id: item.id})}
+      >
+      <View style={styles.wrapper1}>
         <Image style={styles.imageSwiper} source={{uri: item.imageUrl}} />
         <Text style={styles.text1}>{item.name}</Text>
         <View style={styles.textWrap}>
@@ -55,7 +71,10 @@ export function SwiperComponent(props: any) {
 
   const list = viewData.map((item) => {        
     return (
-      <TouchableHighlight underlayColor={Colors.INDIGO2} key={item.id} onPress={() => navigation.push(RootScreens.MAIN)}>
+      <TouchableHighlight underlayColor={Colors.INDIGO2}
+        key={item.id}
+        onPress={() => navigation(RootScreens.MAIN, {id: item.id})}
+      >
         <View style={styles.scrollItem}>
           <Image style={styles.imageScroll} source={{uri: item.imageUrl}} />
           <View style={styles.scrollWrap}>
@@ -76,11 +95,12 @@ export function SwiperComponent(props: any) {
 
   return (
     <View style={styles.container}>
+      {isLoading && <Loader />}
       <ScrollView>
       <View style={styles.wrapper}>
-        <Swiper  loop={true} showsButtons={true} autoplay={true} dot={<View style={{}}/>} activeDot={<View style={{}}/>} >
+        <ScrollView horizontal={true}>
           {page}
-        </Swiper>
+        </ScrollView>
       </View>
       <View style={styles.scroll}>
         <Text style={styles.title}>{props.route.name}</Text>
@@ -99,19 +119,34 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   wrapper: {
+    display: 'flex',
+    flexDirection: 'row',
     paddingTop: 7,
     paddingLeft: 15,
     paddingRight: 15,
     paddingBottom: 7,
-    height: 220,
+    height: 250,
     textAlign: 'center',
     borderBottomWidth: 2,
     borderBottomColor: '#D2D2D2',
   },
+  wrapper1: {
+    width: 220,
+    display: 'flex',
+    flexDirection: 'column',
+    flexWrap: 'wrap',
+    alignItems: 'flex-start',
+    paddingTop: 7,
+    paddingLeft: 15,
+    paddingRight: 15,
+    paddingBottom: 7,
+    height: 250,
+    textAlign: 'center',
+  },
   imageSwiper: {
-    width: 200,
+    width: 180,
     height: 120,
-    borderRadius: 5,
+    borderRadius: 8,
     alignSelf: 'center'
   },
   text2: {
@@ -148,7 +183,7 @@ const styles = StyleSheet.create({
     paddingTop: 15,
     paddingLeft: 20,
     paddingRight: 20,
-    minHeight: 400,
+    minHeight: 600,
   },
   scrollItem: {
     height: 150,
@@ -159,14 +194,16 @@ const styles = StyleSheet.create({
   imageScroll: {
     width: 120,
     height: 120,
-    borderRadius: 5,
+    borderRadius: 8,
     alignSelf: 'center'
   },
   scrollWrap: {
     display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    textAlign: 'flex-start',
     margin: 10,
     flexWrap: 'wrap',
+    width: 230,
   },
 });

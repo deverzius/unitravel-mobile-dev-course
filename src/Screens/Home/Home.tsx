@@ -55,15 +55,17 @@ const styles = StyleSheet.create({
     fontFamily: 'montRegular',
   },
   intro1: {
-    fontSize: 28,
+    fontSize: 26,
     color: Colors.INDIGO4,
     fontWeight: '800',
+    fontFamily: 'montRegular',
   },
   intro2: {
-    fontSize: 20,
+    fontSize: 18,
     lineHeight: 20,
     color: Colors.INDIGO3,
     fontWeight: '600',
+    fontFamily: 'montRegular',
   },
   footer: {
     justifyContent: 'flex-end',
