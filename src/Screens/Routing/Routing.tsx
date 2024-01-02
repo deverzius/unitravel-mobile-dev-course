@@ -71,6 +71,7 @@ export const Routing = (props: IRoutingProps) => {
   };
   BackHandler.addEventListener('hardwareBackPress', () => {
     setPressGetLocation(false);
+    setShowPath(false);
     return true;
   });
 
@@ -205,7 +206,7 @@ export const Routing = (props: IRoutingProps) => {
                           <View style={{ paddingTop: 10 }}>
                             {storedRouteData?.direction?.map((item: any, index: number) => {
                               return (
-                                <>
+                                <View key={index}>
                                   {
                                     index !== 0 &&
                                     <Text style={{
@@ -213,7 +214,7 @@ export const Routing = (props: IRoutingProps) => {
                                       fontSize: 24,
                                       lineHeight: 20,
                                       color: Colors.INDIGO5,
-                                    }}>{' |   '} </Text>
+                                    }}>{'   |'} </Text>
                                   }
                                   <Text style={styles.guildText}>
                                     <Text style={{
@@ -222,7 +223,7 @@ export const Routing = (props: IRoutingProps) => {
                                     }}>{'o   '}</Text>
                                     {item}
                                   </Text>
-                                </>
+                                </View>
                               )
                             })}
                           </View>
@@ -362,7 +363,7 @@ const styles = StyleSheet.create({
   },
   guildText: {
     fontFamily: 'montSemiBold',
-    paddingHorizontal: 6,
+    paddingLeft: 20,
     paddingVertical: 6,
     lineHeight: 20,
   }
