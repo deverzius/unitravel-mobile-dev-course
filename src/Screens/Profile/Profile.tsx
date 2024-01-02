@@ -87,7 +87,7 @@ export const Profile = (props: IProfileProps) => {
       <View style={{ ...styles.infoCtn }}>
         <Text style={{ ...styles.info }}>
           {' '}
-          Số điện thoại: {userData?.phone.slice(3)}{' '}
+          Số điện thoại: {!userData && userData?.phone.slice(3)}{' '}
         </Text>
         <Text style={{ ...styles.info }}> Email: {userData?.email} </Text>
         <Text style={{ ...styles.info }}>
