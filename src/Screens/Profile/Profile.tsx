@@ -28,6 +28,10 @@ export const Profile = (props: IProfileProps) => {
   const handleSubmit = async (e: any) => {
     const token = await AsyncStorage.getItem('token');
     await logout({ token });
+    if(error?.status === 401) {
+      handleExpiredToken(navigation, true);
+      return;
+    }
     setCheckLogout(!checkLogout);
   };
 
