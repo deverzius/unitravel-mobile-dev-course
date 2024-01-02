@@ -2,7 +2,7 @@ import { i18n, LocalizationKey } from '@/Localization';
 import React, { useEffect } from 'react';
 import { View, Text, StyleSheet, PermissionsAndroid, TouchableOpacity, BackHandler } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
-import { Button, Heading, ScrollView } from 'native-base';
+import { Button, Heading, ScrollView, Image } from 'native-base';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Loader } from '@/Components/Loader';
 import MapView, { Marker, Polyline } from 'react-native-maps'
@@ -10,11 +10,9 @@ import * as Location from 'expo-location';
 import { PrimaryButton } from '@/Components/Button';
 import { BasicInput } from '@/Components/Input';
 import { Colors, FontSize } from '@/Theme/Variables';
-import CusHeader from '@/Components/CusHeader';
 import CusText from '@/Components/CusText';
 import Toast from '@/Components/Toast';
 import { useGetRouteMutation } from '@/Services';
-import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export interface IRoutingProps {
@@ -44,8 +42,6 @@ export const Routing = (props: IRoutingProps) => {
     }
   ] = useGetRouteMutation();
 
-
-
   const getLocation = async () => {
     let { status } = await Location.requestForegroundPermissionsAsync();
     if (status !== 'granted') {
@@ -69,11 +65,11 @@ export const Routing = (props: IRoutingProps) => {
     //     setLocation(curLocation);
     //   })
   };
-  BackHandler.addEventListener('hardwareBackPress', () => {
-    setPressGetLocation(false);
-    setShowPath(false);
-    return true;
-  });
+  // BackHandler.addEventListener('hardwareBackPress', () => {
+  //   setPressGetLocation(false);
+  //   setShowPath(false);
+  //   return true;
+  // });
 
   const initialRegion = {
     latitude: 10.875006591125969,
@@ -100,7 +96,11 @@ export const Routing = (props: IRoutingProps) => {
 
   const onRoutePress = () => {
     setIsPress1(false);
+  }
 
+  const onBackPress = () => {
+    setPressGetLocation(false);
+    setShowPath(false);
   }
 
   useEffect(() => {
@@ -135,6 +135,18 @@ export const Routing = (props: IRoutingProps) => {
             strokeWidth={5}
           />}
         </MapView>
+        <TouchableOpacity
+          onPress={onBackPress}
+          style={[styles.backBtn, {display: pressGetLocation ? 'flex' : 'none'}]}
+        >
+          <Image
+            alt='back btn'
+            source={require('@/../assets/icon/arrow.png')}
+            style={{
+              ...styles.backIcon,
+            }}
+          />
+        </TouchableOpacity>
         <View style={styles.control}>
           {!pressGetLocation ?
             (
@@ -366,5 +378,26 @@ const styles = StyleSheet.create({
     paddingLeft: 20,
     paddingVertical: 6,
     lineHeight: 20,
-  }
+  },
+  backBtn: {
+    position: 'absolute',
+    top: 60,
+    left: 30,
+    width: 50,
+    height: 50,
+    borderRadius: 20,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+
+    shadowColor: '#000', // IOS
+    shadowOffset: { height: 2, width: 2 }, // IOS
+    shadowOpacity: 1, // IOS
+    shadowRadius: 10, //IOS,
+    elevation: 10, // Android
+  },
+  backIcon: {
+    width: 20,
+    height: 15,
+  },
 });

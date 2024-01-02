@@ -28,7 +28,12 @@
         "backgroundColor": "#FFFFFF"
       },
       "package": "com.hpcc.expo_redux_template",
-      "softwareKeyboardLayoutMode" : "pan"
+      "softwareKeyboardLayoutMode": "pan",
+      "permissions": [
+        "android.permission.ACCESS_COARSE_LOCATION",
+        "android.permission.ACCESS_FINE_LOCATION",
+        "android.permission.FOREGROUND_SERVICE"
+      ]
     },
     "web": {
       "favicon": "./assets/icon/favicon.png"
@@ -43,6 +48,11 @@
     ],
     "runtimeVersion": {
       "policy": "sdkVersion"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "f822a186-e3e2-43ed-89c4-281b4c3cbec9"
+      }
     }
   }
 }
