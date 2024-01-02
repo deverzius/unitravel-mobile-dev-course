@@ -7,7 +7,10 @@ const routingApi = API.injectEndpoints({
       query: (data) => ({
         url: 'routing',
         method: 'POST',
-        body: data?.userData,
+        body: {
+          startLocation: data.startLocation,
+          endLocation: data.endLocation,
+        },
         headers: {
           Authorization: `Bearer ${data?.token}`,
         },

@@ -10,5 +10,5 @@ export const vi = {
   [LocalizationKey.CANCEL]: "Không",
   [LocalizationKey.ASK_ME_LATER]: "Hỏi lại sau",
   [LocalizationKey.PERMISSION_DENIED]: "Quyền truy cập vị trí bị từ chối",
-  [LocalizationKey.CANNOT_FOUND]: "Không tìm thấy địa điểm nào phù hợp!!",
+  [LocalizationKey.CANNOT_FOUND]: "Không tìm thấy tuyến đường nào phù hợp!!",
 };

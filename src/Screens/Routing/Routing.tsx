@@ -13,7 +13,8 @@ import { Colors, FontSize } from '@/Theme/Variables';
 import CusHeader from '@/Components/CusHeader';
 import CusText from '@/Components/CusText';
 import Toast from '@/Components/Toast';
-
+import { useGetRouteMutation } from '@/Services';
+import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry';
 
 export interface IRoutingProps {
   navigation: any;
@@ -27,6 +28,18 @@ export const Routing = (props: IRoutingProps) => {
   const [departure, setDeparture] = React.useState<any>("");
   const [destination, setDestination] = React.useState<any>("");
   const [showPath, setShowPath] = React.useState<any>(false);
+  const [coords, setCoords] = React.useState<any>([]);
+
+  const [
+    getRoute,
+    {
+      data: routeData,
+      isSuccess: routeSuccess,
+      isLoading: routeLoading,
+      error: routeError,
+    }
+  ] = useGetRouteMutation();
+
 
 
   const getLocation = async () => {
@@ -37,11 +50,13 @@ export const Routing = (props: IRoutingProps) => {
       return false;
     }
 
-    if (destination.toLowerCase() === "bách khoa") { 
-      setShowPath(true);
+    if (destination && departure) {
+      await AsyncStorage.getItem('token')
+        .then(token => getRoute({ token, startLocation: departure, endLocation: destination }))
     }
     else {
       setShowPath(false);
+      setCoords([]);
       Toast.error(i18n.t(LocalizationKey.CANNOT_FOUND));
     }
     // Location.getCurrentPositionAsync({})
@@ -52,10 +67,10 @@ export const Routing = (props: IRoutingProps) => {
   };
 
   const initialRegion = {
-    latitude: 10.8768353,
-    longitude: 106.8093998,
-    latitudeDelta: 0.0922,
-    longitudeDelta: 0.0421,
+    latitude: 10.875006591125969,
+    longitude: 106.80423725629018,
+    latitudeDelta: 0.01,
+    longitudeDelta: 0.018,
   };
 
   const onRegionChange = (region: any) => {
@@ -70,22 +85,31 @@ export const Routing = (props: IRoutingProps) => {
     setDestination(text);
   }
 
-  const coords = [
-    [10.876708521432205, 106.80978187060946],
-    [10.8765491629195, 106.80998035405479],
-    [10.879268018836546, 106.81217934440156],
-    [10.88041718615343, 106.81047609747682],
-    [10.881337334700472, 106.81107577365157],
-    [10.884461729068223, 106.80627419966689],
-    [10.882110921257212, 106.80472565149853],
-    [10.881751624034854, 106.80529003514361]
-  ]
+  // const coords = [
+  //   [10.876708521432205, 106.80978187060946],
+  //   [10.8765491629195, 106.80998035405479],
+  //   [10.879268018836546, 106.81217934440156],
+  //   [10.88041718615343, 106.81047609747682],
+  //   [10.881337334700472, 106.81107577365157],
+  //   [10.884461729068223, 106.80627419966689],
+  //   [10.882110921257212, 106.80472565149853],
+  //   [10.881751624034854, 106.80529003514361]
+  // ]
+
+  useEffect(() => {
+    if (routeSuccess) {
+      console.log('routeData: ', routeData);
+      setShowPath(true);
+      setCoords(routeData?.data[0]?.route);
+    }
+  }, [routeSuccess])
 
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
       {/* {isLoading && <Loader />} */}
       <>
+        {routeLoading && <Loader />}
         <MapView style={styles.map}
           initialRegion={initialRegion}
           onRegionChange={onRegionChange}
@@ -107,8 +131,9 @@ export const Routing = (props: IRoutingProps) => {
 
           <BasicInput
             placeholder="Nhập điểm đi"
-            // onChangeText={handleSetDeparture}
-            value={"Vị trí hiện tại"}
+            onChangeText={handleSetDeparture}
+            // editable={false}
+            value={departure}
           />
           <BasicInput
             placeholder="Nhập điểm đến"
@@ -127,7 +152,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
   },
   heading: {
     fontFamily: 'montExtraBold',
@@ -138,7 +163,7 @@ const styles = StyleSheet.create({
   },
   map: {
     width: "100%",
-    height: "100%",
+    height: "70%",
   },
   control: {
     position: 'absolute',

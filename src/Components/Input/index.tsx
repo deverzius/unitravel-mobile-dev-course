@@ -10,10 +10,11 @@ interface IInputProps {
 	style?: any
 	onChangeText?: any
 	value: string
+	editable?: boolean
 }
 
 const BasicInput: FC<IInputProps> = (props: IInputProps) => {
-	const { onChangeText, placeholder, style, value } = props;
+	const { onChangeText, placeholder, style, value, editable = true } = props;
 
 	return (
 		<TextInput
@@ -21,6 +22,7 @@ const BasicInput: FC<IInputProps> = (props: IInputProps) => {
 			style={[styles.input, style]}
 			placeholder={placeholder}
 			value={value}
+			editable={editable}
 		/>
 	);
 }
