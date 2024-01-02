@@ -1,10 +1,9 @@
 import { i18n, LocalizationKey } from '@/Localization';
 import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, Image, TouchableOpacity } from 'react-native';
-import { StatusBar } from 'expo-status-bar';
-import { Heading } from 'native-base';
-import { BarCodeScanner } from 'expo-barcode-scanner';
+import { StatusBar } from 'expo-status-bar';import { BarCodeScanner } from 'expo-barcode-scanner';
 import { Loader } from '@/Components/Loader';
+import { RootStacks } from '@/Screens/index';
 
 export interface IQRProps {
   navigation: any;
@@ -24,14 +23,26 @@ export const QR = (props: IQRProps) => {
     })();
   };
 
+  const handleNavigate = () => {
+    if (qrData !== 'Not yet scanned') {
+      navigation.navigate(RootStacks.DETAIL, {
+        id: qrData,
+      });
+    }
+  };
+
   useEffect(() => {
     askForCameraPermission();
   }, []);
 
+  useEffect(() => {
+    handleNavigate();
+  }, [qrData]);
+
   const handleBarCodeScanned = ({ type, data }: any) => {
     setScanned(true);
     setQrData(data);
-    alert(`Bar code with type ${type} and data ${data} has been scanned!`);
+    // alert(`Bar code with type ${type} and data ${data} has been scanned!`);
   };
 
   if (hasPermission === 'not-granted') {
@@ -41,8 +52,6 @@ export const QR = (props: IQRProps) => {
   if (hasPermission === 'denied') {
     navigation.goBack();
   }
-
-  console.log(qrData);
 
   return (
     <View style={styles.container}>
