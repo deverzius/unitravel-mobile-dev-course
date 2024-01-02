@@ -1,6 +1,6 @@
 import { i18n, LocalizationKey } from '@/Localization';
 import React from 'react';
-import { View, Text, StyleSheet, Image } from 'react-native';
+import { View, Text, StyleSheet, Image, Dimensions } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { Box, Container, Heading } from 'native-base';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -17,54 +17,54 @@ export const SingleNotiContainer = (props: any) => {
 
   return (
     <View style={styles.container}>
-      <StatusBar style="auto" />
+      {/* <StatusBar style="auto" /> */}
       {/* {isLoading && <Loader />} */}
-      <>
-        <CusHeader>
-          Thông báo
-        </CusHeader>
-        <Container style={styles.mainContainer}>
-          <Image style={styles.image} source={{ uri: data?.image_url}} />
-          <Text style={styles.title}>
-            {data?.location_name}
+      <CusHeader>
+        Thông báo
+      </CusHeader>
+      <Container style={styles.mainContainer}>
+        <Image style={styles.image} source={{ uri: data?.image_url }} />
+        <Text style={styles.title}>
+          {data?.location_name}
+        </Text>
+        <View style={styles.contentContainer}>
+          <Text style={styles.content}>
+            <Text style={{ fontFamily: "montBold" }}>
+              {"Tiêu đề: "}
+            </Text>
+            {data?.title}
           </Text>
-          <View style={styles.contentContainer}>
-            <Text style={styles.content}>
-              <Text style={{ fontFamily: "montBold" }}>
-                {"Tiêu đề: "}
-              </Text>
-              {data?.title}
+          <Text style={styles.content}>
+            <Text style={{ fontFamily: "montBold" }}>
+              {"Ngày gửi: "}
             </Text>
-            <Text style={styles.content}>
-              <Text style={{ fontFamily: "montBold" }}>
-                {"Ngày gửi: "}
-              </Text>
-              {formatDate(data?.send_date)}
+            {formatDate(data?.send_date)}
+          </Text>
+          <Text style={styles.content}>
+            <Text style={{ fontFamily: "montBold" }}>
+              {"Nội dung: "}
             </Text>
-            <Text style={styles.content}>
-              <Text style={{ fontFamily: "montBold" }}>
-                {"Nội dung: "}
-              </Text>
-              {data?.content}
-            </Text>
-          </View>
-        </Container>
-      </>
+            {data?.content}
+          </Text>
+        </View>
+      </Container>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: Colors.WHITE,
-    flex: 1,
-    alignItems: 'center'
+    alignSelf: "center",
+    height: "100%",
+    width: "106%",
+    alignItems: "center",
   },
 
   mainContainer: {
     alignItems: 'center',
     paddingHorizontal: 20,
     marginTop: 30,
+    width: "100%",
     borderColor: Colors.INDIGO5,
     borderRadius: 16,
     borderWidth: 2
@@ -76,21 +76,21 @@ const styles = StyleSheet.create({
 
 
   image: {
-    width: 150,
+    width: 110,
     backgroundColor: "transparent",
     borderRadius: 150,
     aspectRatio: 1 / 1,
     marginBottom: 20,
-    marginTop: 30,
+    marginTop: 40,
   },
   title: {
     textAlign: "center",
-    marginBottom: 38,
+    marginBottom: 40,
     fontSize: FontSize.SMALL,
     fontFamily: "montBold",
   },
   content: {
-    marginBottom: 30,
+    marginBottom: 26,
     fontSize: FontSize.TINY,
     fontFamily: "montRegular",
     textAlign: "justify",
