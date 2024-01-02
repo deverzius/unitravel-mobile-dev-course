@@ -11,4 +11,6 @@ export const vi = {
   [LocalizationKey.ASK_ME_LATER]: "Hỏi lại sau",
   [LocalizationKey.PERMISSION_DENIED]: "Quyền truy cập vị trí bị từ chối",
   [LocalizationKey.CANNOT_FOUND]: "Không tìm thấy tuyến đường nào phù hợp!!",
+  [LocalizationKey.DETAIL]: "Chi tiết",
+  [LocalizationKey.ROUTINGMSG]: "Tuyến đường",
 };

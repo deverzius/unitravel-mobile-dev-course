@@ -24,7 +24,7 @@ export const NotiItem = (props: INotiProps) => {
 					RootStacks.NOTI,
 					{
 						screen: RootScreens.SINGLENOTI,
-						params: data
+						params: { ...data, navigation }
 					}
 				);
 			}}

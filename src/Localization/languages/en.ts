@@ -11,4 +11,6 @@ export const en = {
   [LocalizationKey.ASK_ME_LATER]: "Ask me later",
   [LocalizationKey.PERMISSION_DENIED]: "Permission to access location was denied",
   [LocalizationKey.CANNOT_FOUND]: "Cannot find any appropriate routes!!",
+  [LocalizationKey.DETAIL]: "Detail",
+  [LocalizationKey.ROUTINGMSG]: "Roads",
 };

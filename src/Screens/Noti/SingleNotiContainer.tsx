@@ -1,6 +1,6 @@
 import { i18n, LocalizationKey } from '@/Localization';
 import React from 'react';
-import { View, Text, StyleSheet, Image, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, Image, Dimensions, TouchableOpacity } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { Box, Container, Heading } from 'native-base';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -14,13 +14,27 @@ import { INotiProps } from './Noti';
 
 export const SingleNotiContainer = (props: any) => {
   const data = props.route.params;
+  const onBackPress = () => {
+    data.navigation.pop()
+  }
 
   return (
     <View style={styles.container}>
+      <TouchableOpacity
+        onPress={onBackPress}
+        style={styles.backBtn}
+      >
+        <Image
+          source={require('@/../assets/icon/arrow.png')}
+          style={{
+            ...styles.backIcon,
+          }}
+        />
+      </TouchableOpacity>
       {/* <StatusBar style="auto" /> */}
       {/* {isLoading && <Loader />} */}
       <CusHeader>
-        Thông báo
+        {i18n.t(LocalizationKey.NOTI)}
       </CusHeader>
       <Container style={styles.mainContainer}>
         <Image style={styles.image} source={{ uri: data?.image_url }} />
@@ -94,5 +108,28 @@ const styles = StyleSheet.create({
     fontSize: FontSize.TINY,
     fontFamily: "montRegular",
     textAlign: "justify",
+  },
+
+
+  backBtn: {
+    position: 'absolute',
+    top: 70,
+    left: 40,
+    width: 50,
+    height: 50,
+    borderRadius: 20,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+
+    shadowColor: '#000', // IOS
+    shadowOffset: { height: 2, width: 2 }, // IOS
+    shadowOpacity: 1, // IOS
+    shadowRadius: 10, //IOS,
+    elevation: 10, // Android
+  },
+  backIcon: {
+    width: 20,
+    height: 15,
   },
 });

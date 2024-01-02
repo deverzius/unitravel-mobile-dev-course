@@ -11,4 +11,6 @@ export enum LocalizationKey {
   ASK_ME_LATER = "ask_me_later",
   PERMISSION_DENIED = "permission_denied",
   CANNOT_FOUND = "cannot_found",
+  DETAIL = "detail",
+  ROUTINGMSG = "routingmsg",
 }
