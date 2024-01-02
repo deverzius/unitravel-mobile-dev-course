@@ -203,7 +203,7 @@ export const Routing = (props: IRoutingProps) => {
                             </Text>
                             {destination}
                           </Text>
-                          <View style={{ paddingTop: 10 }}>
+                          <View style={{ paddingTop: 10, paddingBottom: 40 }}>
                             {storedRouteData?.direction?.map((item: any, index: number) => {
                               return (
                                 <View key={index}>

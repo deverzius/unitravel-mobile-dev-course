@@ -34,7 +34,7 @@ export const SingleNotiContainer = (props: any) => {
       {/* <StatusBar style="auto" /> */}
       {/* {isLoading && <Loader />} */}
       <CusHeader>
-        Thông báo
+        {i18n.t(LocalizationKey.NOTI)}
       </CusHeader>
       <Container style={styles.mainContainer}>
         <Image style={styles.image} source={{ uri: data?.image_url }} />
