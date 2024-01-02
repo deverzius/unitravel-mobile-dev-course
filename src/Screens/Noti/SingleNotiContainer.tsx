@@ -10,6 +10,7 @@ import { TextStroke } from '@/Components/TextStroke';
 import { Colors, FontSize } from '@/Theme/Variables';
 import CusHeader from '@/Components/CusHeader';
 import { INotiProps } from './Noti';
+import { NotiContainer } from './NotiContainer';
 
 
 export const SingleNotiContainer = (props: any) => {

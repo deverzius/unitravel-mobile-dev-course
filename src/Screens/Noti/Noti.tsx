@@ -44,32 +44,34 @@ export const Noti = (props: INotiProps) => {
     setRefreshing(true)
     await Promise.resolve(AsyncStorage.getItem('token'))
       .then(token => getNotis({ token }))
-    
+
     setRefreshing(false)
   }, [refreshing]);
 
   return (
-    <View style={styles.container} >
-      <StatusBar style="auto" />
-      {notisLoading ?
-        <Loader /> :
-        <>
-          <CusHeader style={styles.heading}>
-            {i18n.t(LocalizationKey.NOTI)}
-          </CusHeader>
+    <>
+      <View style={styles.container} >
+        <StatusBar style="auto" />
+        {notisLoading ?
+          <Loader /> :
+          <>
+            <CusHeader style={styles.heading}>
+              {i18n.t(LocalizationKey.NOTI)}
+            </CusHeader>
 
-          <SafeAreaView style={styles.safeArea}>
-            <FlatList
-              data={notisData?.data}
-              renderItem={({ item }) => <NotiItem navigation={navigation} data={item} />}
-              refreshControl={
-                <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-              }
-            />
-          </SafeAreaView>
-        </>
-      }
-    </View>
+            <SafeAreaView style={styles.safeArea}>
+              <FlatList
+                data={notisData?.data}
+                renderItem={({ item }) => <NotiItem navigation={navigation} data={item} />}
+                refreshControl={
+                  <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+                }
+              />
+            </SafeAreaView>
+          </>
+        }
+      </View>
+    </>
   );
 };
 

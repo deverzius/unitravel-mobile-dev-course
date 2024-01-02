@@ -56,10 +56,10 @@ export function ScanStack() {
   );
 }
 
-export function NotiStack() {
-  return (
-    <RootStack.Navigator screenOptions={{ headerShown: false }}>
-      <RootStack.Screen name={RootScreens.SINGLENOTI} component={SingleNotiContainer} />
-    </RootStack.Navigator>
-  );
-}
+// export function NotiStack() {
+//   return (
+//     <RootStack.Navigator screenOptions={{ headerShown: false }}>
+//       <RootStack.Screen name={RootScreens.SINGLENOTI} component={SingleNotiContainer} />
+//     </RootStack.Navigator>
+//   );
+// }

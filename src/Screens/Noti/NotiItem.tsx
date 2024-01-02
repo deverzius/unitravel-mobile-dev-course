@@ -20,7 +20,7 @@ export const NotiItem = (props: INotiProps) => {
 	return (
 		<TouchableHighlight
 			onPress={() => {
-				navigation.navigate(
+				navigation.push(
 					RootStacks.NOTI,
 					{
 						screen: RootScreens.SINGLENOTI,
