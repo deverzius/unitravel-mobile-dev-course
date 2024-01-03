@@ -51,7 +51,8 @@ export function SwiperComponent(props: any) {
     return (
       <TouchableHighlight underlayColor={Colors.INDIGO2}
         key={item.id}
-        onPress={() => navigation(RootScreens.MAIN, {id: item.id})}
+        onPressIn={() => {}}
+        // onPress={() => navigation(RootScreens.MAIN, {id: item.id})}
       >
       <View style={styles.wrapper1}>
         <Image style={styles.imageSwiper} source={{uri: item.imageUrl}} />
@@ -73,7 +74,8 @@ export function SwiperComponent(props: any) {
     return (
       <TouchableHighlight underlayColor={Colors.INDIGO2}
         key={item.id}
-        onPress={() => navigation(RootScreens.MAIN, {id: item.id})}
+        onPress={() => {}}
+        // onPress={() => navigation(RootScreens.MAIN, {id: item.id})}
       >
         <View style={styles.scrollItem}>
           <Image style={styles.imageScroll} source={{uri: item.imageUrl}} />
