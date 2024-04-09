@@ -6,12 +6,14 @@
     "development": {
       "developmentClient": true,
       "distribution": "internal",
+      "image": "latest",
       "ios": {
         "resourceClass": "m-medium"
       }
     },
     "preview": {
       "distribution": "internal",
+      "image": "latest",
       "ios": {
         "resourceClass": "m-medium"
       }
